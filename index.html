@@ -69,6 +69,9 @@ input,select{border-radius:14px!important;background:#f6faf7!important;border:1p
 .chips4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.chips4 .chip2 span{justify-content:center;padding:10px 4px}
 .summary .metric{border-radius:22px;background:linear-gradient(135deg,#f4fbf6,#fff)}.summary .metric .value{font-size:26px}
 button.secondary{background:#e7f2ea;color:#1c5c3e}.danger{background:#fdeaea;color:#b73b3b}
+
+html,body{overflow-x:hidden;max-width:100%}main,.layout>*,.panel{min-width:0;max-width:100%}header{width:100%;box-sizing:border-box;padding:5px max(12px,calc((100% - 1200px)/2))!important}header h1{font-size:17px!important}.header-actions button{padding:6px 12px!important;font-size:12.5px!important}.install-btn{padding:6px 9px!important}
+.hero{padding:20px 22px!important;border-radius:26px!important;box-shadow:0 16px 40px #123d2c40!important}.hero .value{font-size:40px!important;letter-spacing:-1px;margin:4px 0 14px!important}.hchip b{font-size:17px!important}.hsub{margin-top:12px;font-size:12.5px;color:#cfe6d6;position:relative}
 </style>
 </head>
 <body>
@@ -88,7 +91,7 @@ button.secondary{background:#e7f2ea;color:#1c5c3e}.danger{background:#fdeaea;col
  </section>
  <section id="appView" class="hidden">
   <div class="monthbar no-print"><button id="prevMonth" class="ghost small">‹</button><strong id="monthLabel"></strong><button id="nextMonth" class="ghost small">›</button></div>
-  <div class="hero"><small><svg class="ic"><use href="#i-wallet"/></svg> মোট ব্যালেন্স</small><div class="value" id="totalBalance">৳০</div><div class="hchips"><div class="hchip"><small>আয় ↗</small><b id="monthIncome">৳০</b></div><div class="hchip"><small>খরচ ↙</small><b id="monthExpense">৳০</b></div><div class="hchip"><small>অবশিষ্ট</small><b id="monthNet">৳০</b></div></div></div>
+  <div class="hero"><small><svg class="ic"><use href="#i-wallet"/></svg> মোট ব্যালেন্স</small><div class="value" id="totalBalance">৳০</div><div class="hchips"><div class="hchip"><small>মোট আয় ↗</small><b id="monthIncome">৳০</b></div><div class="hchip"><small>মোট খরচ ↙</small><b id="monthExpense">৳০</b></div><div class="hchip"><small>অবশিষ্ট = ব্যালেন্স</small><b id="monthNet">৳০</b></div></div><div class="hsub" id="heroMonth"></div></div>
   <nav class="tabs no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg>ড্যাশবোর্ড</button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg>আয়-ব্যয়</button><button data-tab="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg>বাজেট ও সঞ্চয়</button><button data-tab="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button data-tab="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button data-tab="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg>রিপোর্ট</button></nav>
   <nav class="bnav no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg><span>ড্যাশবোর্ড</span></button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg><span>আয়-ব্যয়</span></button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg><span>রিপোর্ট</span></button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg><span>লক্ষ্য</span></button><button id="moreBtn"><svg class="ic"><use href="#i-more"/></svg><span>আরও</span></button></nav><div id="moreSheet" class="more hidden no-print"><button class="ghost" data-goto="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button class="ghost" data-goto="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button class="ghost" data-goto="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button class="ghost" data-goto="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button></div>
   <section id="overview" class="section active">
@@ -181,7 +184,7 @@ document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.on
 $("moreBtn").onclick=()=>$("moreSheet").classList.toggle("hidden");
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>tab(b.dataset.goto));
 function catOptions(type,sel){let a=type==="income"?["বেতন","ব্যবসা","ফ্রিল্যান্স","উপহার","অন্যান্য আয়"]:["খাবার","বাজার","যাতায়াত","বাসা ভাড়া","বিদ্যুৎ/গ্যাস/পানি","মোবাইল/ইন্টারনেট","চিকিৎসা","পড়াশোনা","পরিবার","বিনোদন","কেনাকাটা","অন্যান্য"];return a.map(x=>`<option${x===sel?" selected":""}>${x}</option>`).join("")}
-function accountOptions(sel){return data.accounts.map(a=>`<option value="${esc(a.id)}"${a.id===sel?" selected":""}>${esc(a.name)}</option>`).join("")}
+function accountOptions(sel){return data.accounts.map(a=>`<option value="${esc(a.id)}"${a.id===sel?" selected":""}>${esc(a.name)} (${money(accountBalance(a.id))})</option>`).join("")}
 function field(label,name,type="text",value="",extra=""){return `<div class="field"><label>${label}</label><input name="${name}" type="${type}" value="${esc(value)}" ${extra}></div>`}
 function selectField(label,name,options){return `<div class="field"><label>${label}</label><select name="${name}" required>${options}</select></div>`}
 function openModal(title,body,save){$("modal").classList.remove("sheet");$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modal").showModal();$("modalForm").onsubmit=async e=>{e.preventDefault();const obj=Object.fromEntries(new FormData(e.target).entries());try{await save(obj);$("modal").close();toast("সংরক্ষণ হয়েছে");}catch(err){toast("সংরক্ষণ হয়নি: "+(err.message||err))}}}
@@ -276,13 +279,14 @@ function renderOverviews(){
 }
 function render(){
  renderMeals();renderOverviews();const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
- $("totalBalance").textContent=money(data.accounts.reduce((s,a)=>s+accountBalance(a.id),0));$("monthIncome").textContent=money(inc);$("monthExpense").textContent=money(exp);$("monthNet").textContent=money(inc-exp);
+ {const ok=t=>data.accounts.some(a=>a.id===t.accountId),sum=ty=>data.transactions.filter(t=>t.type===ty&&ok(t)).reduce((s,t)=>s+Number(t.amount||0),0),allInc=data.accounts.reduce((s,a)=>s+Number(a.opening||0),0)+sum("income"),allExp=sum("expense");
+$("totalBalance").textContent=money(allInc-allExp);$("monthIncome").textContent=money(allInc);$("monthExpense").textContent=money(allExp);$("monthNet").textContent=money(allInc-allExp);$("heroMonth").textContent=`${monthLabel(m)} মাসে: আয় ${money(inc)} · খরচ ${money(exp)}`}
  const rows=[...data.transactions].sort((a,b)=>(b.date||"").localeCompare(a.date||""));const recent=rows.slice(0,6);
  $("recentTransactions").innerHTML=recent.length?`<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>বিবরণ</th><th>পরিমাণ</th></tr></thead><tbody>${recent.map(t=>`<tr><td>${esc(t.date)}</td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"লেনদেন"))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">এখনো কোনো লেনদেন নেই।</div>`;
  renderDash(m,tx);
  const filtered=rows.filter(t=>{const s=$("searchTxn").value.toLowerCase(),typ=$("filterType").value,mon=$("filterMonth").value;return (!s||`${t.note||""} ${t.category||""}`.toLowerCase().includes(s))&&(!typ||t.type===typ)&&(!mon||(t.date||"").startsWith(mon))});
  $("txnTable").innerHTML=filtered.length?filtered.map(t=>`<tr><td>${esc(t.date)}</td><td><span class="pill ${t.type==="expense"?"out":t.type==="transfer"?"transfer":""}">${t.type==="income"?"আয়":t.type==="expense"?"খরচ":"ট্রান্সফার"}</span></td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"—"))}<div class="muted">${esc(t.category||"")}</div></td><td>${esc(txnAccount(t))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td><td>${t.virtual?`<span class="pill">মিল ট্যাব থেকে</span>`:`<button class="secondary small" data-edit-txn="${t.id}">এডিট</button> <button class="danger small" data-del-txn="${t.id}">মুছুন</button>`}</td></tr>`).join(""):`<tr><td colspan="6" class="empty">কোনো লেনদেন পাওয়া যায়নি।</td></tr>`;
- $("accountList").innerHTML=data.accounts.length?data.accounts.map(a=>`<div class="budget-row"><div class="budget-title"><span><strong>${esc(a.name)}</strong><div class="muted">${esc(a.type||"অ্যাকাউন্ট")}</div></span><span><strong>${money(accountBalance(a.id))}</strong><button class="secondary small" data-edit-account="${a.id}">এডিট</button> <button class="danger small" data-del-account="${a.id}">মুছুন</button></span></div></div>`).join(""):`<div class="empty">প্রথমে নগদ বা ব্যাংক অ্যাকাউন্ট যোগ করো।</div>`;
+ $("accountList").innerHTML=data.accounts.length?data.accounts.map(a=>`<div class="budget-row"><div class="budget-title"><span><strong>${esc(a.name)}</strong><div class="muted">${esc(a.type==="নগদ"?"ক্যাশ":(a.type||"অ্যাকাউন্ট"))}</div></span><span><strong>${money(accountBalance(a.id))}</strong><button class="secondary small" data-edit-account="${a.id}">এডিট</button> <button class="danger small" data-del-account="${a.id}">মুছুন</button></span></div></div>`).join(""):`<div class="empty">প্রথমে ক্যাশ বা ব্যাংক অ্যাকাউন্ট যোগ করো।</div>`;
  $("budgetList").innerHTML=data.budgets.length?data.budgets.map(b=>`<div class="budget-row"><strong>${esc(b.category)}</strong> · মাসিক সীমা ${money(b.limit)} <button class="secondary small" data-edit-budget="${b.id}">এডিট</button> <button class="danger small" data-del-budget="${b.id}">মুছুন</button></div>`).join(""):`<div class="empty">এখনো বাজেট নেই।</div>`;
  renderGoals();
  $("debtTable").innerHTML=data.debts.length?data.debts.map(d=>`<tr><td>${esc(d.person)}</td><td>${d.type==="owe"?"আমি দেব":"আমি পাব"}</td><td>${money(d.amount)}</td><td>${money(d.paid||0)}</td><td>${money(Number(d.amount)-Number(d.paid||0))}</td><td><button class="secondary small" data-debt-pay="${d.id}">পরিশোধ আপডেট</button> <button class="secondary small" data-edit-debt="${d.id}">এডিট</button> <button class="danger small" data-del-debt="${d.id}">মুছুন</button></td></tr>`).join(""):`<tr><td colspan="6" class="empty">ধার বা পাওনা যোগ করা হয়নি।</td></tr>`;
@@ -315,7 +319,7 @@ document.addEventListener("click",async e=>{
 });
 function txnDyn(type,v){v=v||{};
  if(type==="transfer")return selectField("যে অ্যাকাউন্ট থেকে","fromId",accountOptions(v.fromId))+selectField("যে অ্যাকাউন্টে","toId",accountOptions(v.toId));
- return catChips(type,v.category)+selectField("অ্যাকাউন্ট","accountId",accountOptions(v.accountId))}
+ return catChips(type,v.category)+selectField(type==="income"?"কোন অ্যাকাউন্টে জমা হবে":"কোন অ্যাকাউন্ট/খাত থেকে খরচ","accountId",accountOptions(v.accountId))}
 function openTxn(t){
  const editing=!!(t&&t.id);
  if(!data.accounts.length){toast("আগে একটি অ্যাকাউন্ট তৈরি করো");tab("accounts");return}
@@ -340,10 +344,10 @@ function openTxn(t){
 }
 $("addTxn").onclick=$("addTxnTop").onclick=$("fab").onclick=()=>openTxn();
 function openAccount(a){
- const e=!!(a&&a.id),v=e?a:{type:"নগদ",opening:0};
+ const e=!!(a&&a.id),v=e?a:{type:"ক্যাশ",opening:0};
  openModal(e?"অ্যাকাউন্ট এডিট":"নতুন অ্যাকাউন্ট",
-  field("অ্যাকাউন্টের নাম","name","text",v.name||"",'required placeholder="নগদ / ব্যাংক / বিকাশ"')
-  +selectField("ধরন","type",["নগদ","ব্যাংক","মোবাইল ওয়ালেট","অন্যান্য"].map(x=>`<option${x===v.type?" selected":""}>${x}</option>`).join(""))
+  field("অ্যাকাউন্টের নাম","name","text",v.name||"",'required placeholder="ক্যাশ / ব্যাংক / বিকাশ"')
+  +selectField("ধরন","type",["ক্যাশ","ব্যাংক","মোবাইল ওয়ালেট","অন্যান্য"].map(x=>`<option${x===v.type?" selected":""}>${x}</option>`).join(""))
   +field("শুরুর ব্যালেন্স (৳)","opening","number",v.opening??0,'min="0" step="0.01" required'),
   async o=>{o.opening=Number(o.opening);if(e){if(!await askConfirm("অ্যাকাউন্টের পরিবর্তনগুলো সংরক্ষণ করবেন?","হ্যাঁ, সংরক্ষণ করুন",false))throw Error("পরিবর্তন বাতিল করা হয়েছে");await patch("accounts",a.id,o)}else await add("accounts",o)});
 }
