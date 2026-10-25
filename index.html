@@ -28,12 +28,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
 .bnav{display:none}.more{position:fixed;bottom:88px;right:14px;background:#fff;border-radius:16px;box-shadow:0 8px 30px #0003;padding:8px;z-index:21;display:flex;flex-direction:column;gap:4px}
 @media(max-width:800px){.tabs{display:none}main{padding-bottom:100px}.toast{bottom:92px}.bnav{display:flex;position:fixed;bottom:10px;left:10px;right:10px;background:#fff;border-radius:22px;box-shadow:0 8px 30px #0003;padding:6px;z-index:20}.bnav button{background:none;color:#5b6b62;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:7px 4px;border-radius:16px;flex:1}.bnav button b{font-size:19px}.bnav button.active{background:var(--mint);color:var(--green)}dialog.sheet{margin:auto auto 0;width:100%;max-width:560px;border-radius:24px 24px 0 0}.hero .value{font-size:28px}}
 .install-btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px!important}
+.useremail{color:#fff;font-size:13px;font-weight:600;background:#ffffff1c;border-radius:99px;padding:8px 13px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.useremail:empty{display:none}
+@media(max-width:800px){.header-actions{width:100%}.useremail{flex:1;min-width:0}}
 </style>
 </head>
 <body>
 <header>
  <div><h1>🌿 আমার হিসাব</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
- <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="muted" style="color:#d6e9dc"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
+ <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="useremail"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
 </header>
 <main>
  <div id="setupNotice" class="notice">প্রথমবার চালানোর আগে README_SETUP_BN.txt অনুসারে Firebase config বসাও এবং Authentication ও Firestore চালু করো। এই ডেমো ফাইলে বাস্তব Firebase সংযোগের জন্য কনফিগ প্রয়োজন।</div>
@@ -91,7 +93,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
    </div>
   </section>
  </section>
- <div class="foot">আমার হিসাব · BDT (৳) · ব্যক্তিগত আর্থিক তথ্য সুরক্ষিত রাখো</div>
+ <div class="foot">আমার হিসাব · সংস্করণ ৩ · BDT (৳) · ব্যক্তিগত আর্থিক তথ্য সুরক্ষিত রাখো</div>
 </main>
 <dialog id="modal"><form id="modalForm"><div class="modal-head"><strong id="modalTitle">নতুন তথ্য</strong><button type="button" id="closeModal" class="small" style="background:#ffffff22;color:white">✕</button></div><div id="modalBody" class="modal-body"></div><div class="modal-foot"><button type="button" class="ghost" id="cancelModal">বাতিল</button><button class="primary" type="submit">সংরক্ষণ</button></div></form></dialog>
 <div id="toast" class="toast hidden"></div>
@@ -256,9 +258,7 @@ let deferredInstallPrompt = null;
 const installAppBtn = $("installAppBtn");
 const standaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 if (standaloneMode) {
-  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
-  installAppBtn.disabled = true;
-  installAppBtn.style.opacity = ".8";
+  installAppBtn.classList.add("hidden");
 }
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
@@ -283,9 +283,7 @@ installAppBtn.addEventListener("click", async () => {
   }
 });
 window.addEventListener("appinstalled", () => {
-  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
-  installAppBtn.disabled = true;
-  installAppBtn.style.opacity = ".8";
+  installAppBtn.classList.add("hidden");
 });
 
 window.addEventListener("offline",()=>toast("ইন্টারনেট নেই — অফলাইন মোডে চলছে, ফিরলে ডেটা সিঙ্ক হবে"));
@@ -293,7 +291,7 @@ window.addEventListener("online",()=>toast("ইন্টারনেট ফি�
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   const hadController = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController) toast("অ্যাপের নতুন সংস্করণ এসেছে — পেজ রিফ্রেশ করলে আপডেট পাবে"); });
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.warn("PWA service worker:", err)));
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(err => console.warn("PWA service worker:", err)));
 }
 </script>
 </body>
