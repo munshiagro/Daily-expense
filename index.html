@@ -30,15 +30,39 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
 .install-btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px!important}
 .useremail{color:#fff;font-size:13px;font-weight:600;background:#ffffff1c;border-radius:99px;padding:8px 13px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.useremail:empty{display:none}
 @media(max-width:800px){.header-actions{width:100%}.useremail{flex:1;min-width:0}}
+
+:root{--bg:#f2f6f3;--shadow:0 1px 2px #0e33250a,0 10px 30px #0e33250f}
+body{background:radial-gradient(900px 420px at 100% -10%,#d6efdf 0,transparent 60%),var(--bg);min-height:100vh}
+.ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+header{position:sticky;top:0;z-index:30;padding:12px max(16px,calc((100% - 1200px)/2));background:linear-gradient(120deg,#0e3325ee,#1d6042ee);backdrop-filter:blur(14px)}
+header h1{display:flex;align-items:center;gap:10px;font-size:20px}header p{margin:2px 0 0 48px;font-size:12px}
+.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#8cf0b2,#2fb36d);color:#06301d;box-shadow:0 4px 14px #0004}.logo .ic{width:22px;height:22px}
+#userEmail{display:none!important}
+button{border-radius:999px;transition:transform .15s,box-shadow .15s}button:active{transform:scale(.96)}
+.primary{background:linear-gradient(135deg,#1f6a48,#123d2c);box-shadow:0 6px 16px #123d2c40}
+.header-actions button{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;font-size:13px}
+.panel,.metric,.auth{border-radius:22px;border:1px solid #e3ede6}.panel{animation:rise .45s both}@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.panel h3{display:flex;align-items:center;gap:8px}
+.tabs{display:flex;gap:4px;background:#fff;padding:5px;border-radius:999px;box-shadow:var(--shadow);width:fit-content;max-width:100%;margin:0 auto 18px;overflow:auto}
+.tabs button{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;font-size:13.5px;background:transparent;color:#4a6454;white-space:nowrap}
+.tabs button.active{background:linear-gradient(135deg,#1f6a48,#123d2c);color:#fff;box-shadow:0 6px 14px #123d2c40}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#2a8a5c,#123d2c 70%)}.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:#ffffff14}.hero::before{width:230px;height:230px;right:-60px;top:-100px}.hero::after{width:150px;height:150px;right:100px;bottom:-95px}.hero>*{position:relative}.hchip{border:1px solid #ffffff24;backdrop-filter:blur(6px)}
+input:focus,select:focus{outline:2px solid #2d8053;outline-offset:1px}th{background:transparent}tbody tr:hover{background:#f6faf7}.empty{padding:30px}
+.more button{display:flex;align-items:center;gap:8px}.fab{display:none}
+@media(max-width:800px){header p{display:none}.install-btn span{display:none}.install-btn{padding:10px!important}.bnav{border-radius:26px;background:#fffffff0;backdrop-filter:blur(14px)}.bnav button .ic{width:22px;height:22px}.fab{display:grid;place-items:center;position:fixed;right:18px;bottom:96px;width:56px;height:56px;border-radius:50%;padding:0;background:linear-gradient(135deg,#34c27a,#1f6a48);color:#fff;box-shadow:0 10px 24px #123d2c66;z-index:19}.fab .ic{width:26px;height:26px;stroke-width:2.6}}
+.mealtbl td,.mealtbl th{text-align:center;padding:6px}.mealtbl td:first-child,.mealtbl th:first-child{text-align:left}
+.mealbtn{width:42px;height:34px;border-radius:12px;background:#eef3ef;color:#fff;padding:0;display:inline-grid;place-items:center;border:1px dashed #cfdcd3}.mealbtn.on{background:linear-gradient(135deg,#34c27a,#1f6a48);border:0;box-shadow:0 4px 10px #1f6a4840}
+.mealcard{border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:10px;background:#fbfdfb}.mc-h{display:flex;justify-content:space-between;margin-bottom:10px}.mc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}.mc-row small{display:block;color:var(--muted);font-size:12px}.mc-row strong{font-size:20px}.mc-total strong{color:#1f6a48}
+.pill.off{background:#eef1ee;color:#9aa8a0;text-decoration:line-through}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16.5" cy="14" r="1.2"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></symbol><symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></symbol><symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="i-meal" viewBox="0 0 24 24"><path d="M4 3v7a2 2 0 0 0 2 2v9M8 3v7M12 3v7a2 2 0 0 1-2 2"/><path d="M18 3c-2 1-3 4-3 7 0 1.5 1 2 3 2v9"/></symbol></defs></svg>
 <header>
- <div><h1>🌿 আমার হিসাব</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
- <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="useremail"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
+ <div><h1><span class="logo"><svg class="ic"><use href="#i-leaf"/></svg></span>আমার হিসাব</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
+ <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="useremail"></span><button id="logoutBtn" class="hidden"><svg class="ic"><use href="#i-out"/></svg>লগআউট</button></div>
 </header>
 <main>
- <div id="setupNotice" class="notice">প্রথমবার চালানোর আগে README_SETUP_BN.txt অনুসারে Firebase config বসাও এবং Authentication ও Firestore চালু করো। এই ডেমো ফাইলে বাস্তব Firebase সংযোগের জন্য কনফিগ প্রয়োজন।</div>
  <section id="authView" class="auth">
   <h2 id="authTitle">লগইন / নতুন অ্যাকাউন্ট</h2>
   <p class="muted">তোমার হিসাব ব্যক্তিগত অ্যাকাউন্টে সংরক্ষিত থাকবে।</p>
@@ -49,11 +73,9 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
  </section>
  <section id="appView" class="hidden">
   <div class="monthbar no-print"><button id="prevMonth" class="ghost small">‹</button><strong id="monthLabel"></strong><button id="nextMonth" class="ghost small">›</button></div>
-  <div class="hero"><small>মোট ব্যালেন্স</small><div class="value" id="totalBalance">৳০</div><div class="hchips"><div class="hchip"><small>আয় ↗</small><b id="monthIncome">৳০</b></div><div class="hchip"><small>খরচ ↙</small><b id="monthExpense">৳০</b></div><div class="hchip"><small>অবশিষ্ট</small><b id="monthNet">৳০</b></div></div></div>
-  <nav class="tabs no-print"><nav class="tabs no-print">
-   <button class="active" data-tab="overview">ড্যাশবোর্ড</button><button data-tab="transactions">আয়-ব্যয়</button><button data-tab="accounts">অ্যাকাউন্ট</button><button data-tab="budgets">বাজেট ও সঞ্চয়</button><button data-tab="debts">ধার-পাওনা</button><button data-tab="bills">নিয়মিত বিল</button><button data-tab="reports">রিপোর্ট</button>
-  </nav>
-  <nav class="bnav no-print"><button data-tab="overview" class="active"><b>🏠</b>ড্যাশবোর্ড</button><button data-tab="transactions"><b>🧾</b>আয়-ব্যয়</button><button data-tab="reports"><b>📊</b>রিপোর্ট</button><button data-tab="budgets"><b>🎯</b>লক্ষ্য</button><button id="moreBtn"><b>⋯</b>আরও</button></nav><div id="moreSheet" class="more hidden no-print"><button class="ghost" data-goto="accounts">🏦 অ্যাকাউন্ট</button><button class="ghost" data-goto="debts">🤝 ধার-পাওনা</button><button class="ghost" data-goto="bills">🧾 নিয়মিত বিল</button></div>
+  <div class="hero"><small><svg class="ic"><use href="#i-wallet"/></svg> মোট ব্যালেন্স</small><div class="value" id="totalBalance">৳০</div><div class="hchips"><div class="hchip"><small>আয় ↗</small><b id="monthIncome">৳০</b></div><div class="hchip"><small>খরচ ↙</small><b id="monthExpense">৳০</b></div><div class="hchip"><small>অবশিষ্ট</small><b id="monthNet">৳০</b></div></div></div>
+  <nav class="tabs no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg>ড্যাশবোর্ড</button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg>আয়-ব্যয়</button><button data-tab="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg>বাজেট ও সঞ্চয়</button><button data-tab="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button data-tab="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button data-tab="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg>রিপোর্ট</button></nav>
+  <nav class="bnav no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg><span>ড্যাশবোর্ড</span></button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg><span>আয়-ব্যয়</span></button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg><span>রিপোর্ট</span></button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg><span>লক্ষ্য</span></button><button id="moreBtn"><svg class="ic"><use href="#i-more"/></svg><span>আরও</span></button></nav><div id="moreSheet" class="more hidden no-print"><button class="ghost" data-goto="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button class="ghost" data-goto="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button class="ghost" data-goto="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button class="ghost" data-goto="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button></div>
   <section id="overview" class="section active">
    <div class="layout">
     <div>
@@ -86,6 +108,17 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
   <section id="bills" class="section">
    <div class="panel"><div class="panel-head"><h3>নিয়মিত বিল</h3><button class="primary" id="addBill">+ বিল যোগ</button></div><p class="muted">এখানে নির্ধারিত বিল ও তারিখ রাখা যাবে। এই সংস্করণ স্বয়ংক্রিয় টাকা কাটবে না বা push notification পাঠাবে না।</p><div id="billList"></div></div>
   </section>
+  <section id="meals" class="section">
+   <div id="mealSummary" class="summary"></div>
+   <div class="layout">
+    <div><div class="panel"><div class="panel-head"><h3><svg class="ic"><use href="#i-meal"/></svg> মিল ক্যালেন্ডার</h3><span class="muted">ঘরে ট্যাপ করলে মার্ক হবে</span></div><div id="mealGrid"></div></div></div>
+    <div>
+     <div class="panel"><div class="panel-head"><h3>সারাংশ কার্ড</h3><div><button id="mvMonth" class="small primary">মাসিক</button> <button id="mvWeek" class="small ghost">সাপ্তাহিক</button></div></div><div id="mealCards"></div></div>
+     <div class="panel"><div class="panel-head"><h3>টাকা জমা</h3><div><button id="setRate" class="ghost small">মিলের রেট</button> <button id="addMealDep" class="primary small">+ জমা</button></div></div><div id="mealDeps"></div></div>
+     <div class="panel"><h3>সর্বশেষ মিলের তালিকা</h3><div id="mealList"></div></div>
+    </div>
+   </div>
+  </section>
   <section id="reports" class="section">
    <div class="panel"><h3>রিপোর্ট ও ব্যাকআপ</h3><p class="muted">নির্বাচিত মাসের লেনদেন CSV/Excel-compatible ফাইলে ডাউনলোড করো অথবা ব্রাউজারের Print → Save as PDF ব্যবহার করো।</p>
     <div class="toolbar"><input type="month" id="reportMonth"><button class="primary" id="downloadCsv">CSV / Excel ডাউনলোড</button><button class="secondary" id="printReport">PDF / প্রিন্ট</button><button class="ghost" id="backupJson">JSON ব্যাকআপ</button></div>
@@ -96,12 +129,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
  <div class="foot">আমার হিসাব · সংস্করণ ৩ · BDT (৳) · ব্যক্তিগত আর্থিক তথ্য সুরক্ষিত রাখো</div>
 </main>
 <dialog id="modal"><form id="modalForm"><div class="modal-head"><strong id="modalTitle">নতুন তথ্য</strong><button type="button" id="closeModal" class="small" style="background:#ffffff22;color:white">✕</button></div><div id="modalBody" class="modal-body"></div><div class="modal-foot"><button type="button" class="ghost" id="cancelModal">বাতিল</button><button class="primary" type="submit">সংরক্ষণ</button></div></form></dialog>
+<button id="fab" class="fab no-print" aria-label="নতুন লেনদেন"><svg class="ic"><use href="#i-plus"/></svg></button>
 <div id="toast" class="toast hidden"></div>
 <script type="module">
 /* Firebase modular SDK CDN. Firebase config is set for this project. */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, deleteField, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, setDoc, query, orderBy, serverTimestamp, deleteField, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmUeGOvniGIzEiUPigC3yWdGfC1WQY1xg",
@@ -113,7 +147,7 @@ const firebaseConfig = {
   measurementId: "G-286RF8TGF1"
 };
 const configReady = !Object.values(firebaseConfig).some(v=>String(v).startsWith("PASTE_"));
-let auth, db, currentUser, unsubscribers=[], data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};
+let auth, db, currentUser, unsubscribers=[], data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[],meals:[],mealDeposits:[],mealSettings:[]};
 const $=id=>document.getElementById(id);
 const money=n=>"৳"+(Number(n)||0).toLocaleString("en-BD",{maximumFractionDigits:2});
 const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Dhaka",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
@@ -121,7 +155,7 @@ const monthNow=()=>today().slice(0,7);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(s){$("toast").textContent=s;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3000)}
 function setMsg(s){$("authMessage").textContent=s}
-function tab(name){$("moreBtn").classList.toggle("active",["accounts","debts","bills"].includes(name));$("moreSheet").classList.add("hidden");document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===name))}
+function tab(name){$("moreBtn").classList.toggle("active",["accounts","debts","bills","meals"].includes(name));$("moreSheet").classList.add("hidden");document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===name))}
 document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
 $("moreBtn").onclick=()=>$("moreSheet").classList.toggle("hidden");
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>tab(b.dataset.goto));
@@ -174,8 +208,30 @@ function renderGoals(){
 function amtClass(t){return t.type==="income"?"positive":t.type==="expense"?"negative":""}
 function amtText(t){return (t.type==="income"?"+":t.type==="expense"?"\u2212":"\u21c4 ")+money(t.amount)}
 function txnAccount(t){const n=id=>data.accounts.find(a=>a.id===id)?.name||"\u2014";return t.type==="transfer"?`${n(t.fromId)} \u2192 ${n(t.toId)}`:n(t.accountId)}
+let mealView="month";
+const SLOTS=[["b","সকাল"],["l","দুপুর"],["d","রাত"]],WD=["রবি","সোম","মঙ্গল","বুধ","বৃহ","শুক্র","শনি"];
+const mealRate=()=>Number(data.mealSettings.find(x=>x.id==="rate")?.rate||0),mealCount=r=>SLOTS.filter(([k])=>r[k]).length;
+function toggleMeal(ds,k){if(!currentUser)return;const cur=data.meals.find(r=>r.id===ds)||{};setDoc(doc(db,"users",currentUser.uid,"meals",ds),{date:ds,[k]:!cur[k]},{merge:true}).catch(e=>toast("সংরক্ষণ হয়নি: "+e.message))}
+function renderMeals(){
+ const m=viewMonth,[y,mo]=m.split("-").map(Number),n=new Date(y,mo,0).getDate(),by={};data.meals.forEach(r=>{if((r.id||"").startsWith(m))by[r.id]=r});
+ const tot=SLOTS.map(([k])=>Object.values(by).filter(r=>r[k]).length),all=tot.reduce((a,b)=>a+b,0);
+ const deps=data.mealDeposits.filter(d=>(d.date||"").startsWith(m)).sort((a,b)=>(b.date||"").localeCompare(a.date||"")),dep=deps.reduce((s,d)=>s+Number(d.amount||0),0),rate=mealRate(),cost=all*rate,bal=dep-cost;
+ $("mealSummary").innerHTML=`<div class="metric"><div class="label">মোট জমা</div><div class="value positive">${money(dep)}</div></div><div class="metric"><div class="label">মোট মিল</div><div class="value">${all}</div><div class="sub">সকাল ${tot[0]} · দুপুর ${tot[1]} · রাত ${tot[2]}</div></div><div class="metric"><div class="label">প্রতি মিলের রেট</div><div class="value">${rate?money(rate):"—"}</div></div><div class="metric"><div class="label">${bal>=0?"জমা বাকি":"বকেয়া"}</div><div class="value ${bal>=0?"positive":"negative"}">${rate?money(Math.abs(bal)):"—"}</div><div class="sub">মিল খরচ ${rate?money(cost):"—"}</div></div>`;
+ let rows="";for(let i=1;i<=n;i++){const ds=`${m}-${String(i).padStart(2,"0")}`,r=by[ds]||{};rows+=`<tr><td><b>${i}</b> <span class="muted">${WD[new Date(y,mo-1,i).getDay()]}</span></td>${SLOTS.map(([k])=>`<td><button class="mealbtn${r[k]?" on":""}" data-meal="${ds}|${k}" aria-pressed="${!!r[k]}">${r[k]?'<svg class="ic"><use href="#i-check"/></svg>':""}</button></td>`).join("")}<td class="amount">${mealCount(r)}</td></tr>`}
+ $("mealGrid").innerHTML=`<div class="table-wrap"><table class="mealtbl"><thead><tr><th>তারিখ</th>${SLOTS.map(([,l])=>`<th>${l}</th>`).join("")}<th>মোট</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ const cnt=(a,b)=>SLOTS.map(([k])=>{let c=0;for(let i=a;i<=b;i++){const r=by[`${m}-${String(i).padStart(2,"0")}`];if(r&&r[k])c++}return c});
+ const card=(t,sub,c)=>`<div class="mealcard"><div class="mc-h"><b>${t}</b><span class="muted">${sub}</span></div><div class="mc-row">${SLOTS.map(([,l],i)=>`<div><small>${l}</small><strong>${c[i]}</strong></div>`).join("")}<div class="mc-total"><small>মোট</small><strong>${c.reduce((a,b)=>a+b,0)}</strong></div></div></div>`;
+ $("mealCards").innerHTML=mealView==="month"?card(monthLabel(m),`১–${n} তারিখ`,tot):[[1,7],[8,14],[15,21],[22,28],[29,n]].filter(([a])=>a<=n).map(([a,b],i)=>card(`সপ্তাহ ${i+1}`,`${a}–${Math.min(b,n)} তারিখ`,cnt(a,Math.min(b,n)))).join("");
+ $("mealDeps").innerHTML=deps.length?deps.map(d=>`<div class="budget-row"><div class="budget-title"><span><strong>${money(d.amount)}</strong><div class="muted">${esc(d.date)}${d.note?" · "+esc(d.note):""}</div></span><button class="danger small" data-del-mdep="${d.id}">মুছুন</button></div></div>`).join(""):`<div class="empty">এই মাসে জমা নেই।</div>`;
+ const last=Object.values(by).filter(mealCount).sort((a,b)=>b.id.localeCompare(a.id)).slice(0,10);
+ $("mealList").innerHTML=last.length?last.map(r=>`<div class="budget-row"><div class="budget-title"><strong>${esc(r.id)}</strong><span>${SLOTS.map(([k,l])=>`<span class="pill${r[k]?"":" off"}">${l}</span>`).join(" ")}</span><strong>${mealCount(r)} মিল</strong></div></div>`).join(""):`<div class="empty">এখনো কোনো মিল মার্ক করা হয়নি।</div>`;
+ $("mvMonth").className="small "+(mealView==="month"?"primary":"ghost");$("mvWeek").className="small "+(mealView==="week"?"primary":"ghost");
+}
+$("mvMonth").onclick=()=>{mealView="month";renderMeals()};$("mvWeek").onclick=()=>{mealView="week";renderMeals()};
+$("addMealDep").onclick=()=>openModal("মিলের টাকা জমা",field("পরিমাণ (৳)","amount","number","",'required min="1"')+field("তারিখ","date","date",today(),"required")+field("নোট","note","text","",'placeholder="যেমন: মাসের প্রথম জমা"'),async o=>{o.amount=Number(o.amount);await add("mealDeposits",o)});
+$("setRate").onclick=()=>openModal("প্রতি মিলের রেট",field("প্রতি মিলের খরচ (৳)","rate","number",mealRate()||"",'required min="0" step="0.01"'),async o=>{setDoc(doc(db,"users",currentUser.uid,"mealSettings","rate"),{rate:Number(o.rate)}).catch(e=>toast(e.message))});
 function render(){
- const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
+ renderMeals();const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
  $("totalBalance").textContent=money(data.accounts.reduce((s,a)=>s+accountBalance(a.id),0));$("monthIncome").textContent=money(inc);$("monthExpense").textContent=money(exp);$("monthNet").textContent=money(inc-exp);
  const rows=[...data.transactions].sort((a,b)=>(b.date||"").localeCompare(a.date||""));const recent=rows.slice(0,6);
  $("recentTransactions").innerHTML=recent.length?`<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>বিবরণ</th><th>পরিমাণ</th></tr></thead><tbody>${recent.map(t=>`<tr><td>${esc(t.date)}</td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"লেনদেন"))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">এখনো কোনো লেনদেন নেই।</div>`;
@@ -199,6 +255,8 @@ document.addEventListener("click",async e=>{
  if(t.dataset.delGoal)await remove("goals",t.dataset.delGoal);
  if(t.dataset.delDebt)await remove("debts",t.dataset.delDebt);
  if(t.dataset.delBill)await remove("bills",t.dataset.delBill);
+ const mb=t.closest&&t.closest("[data-meal]");if(mb){const [ds,k]=mb.dataset.meal.split("|");toggleMeal(ds,k)}
+ if(t.dataset.delMdep)await remove("mealDeposits",t.dataset.delMdep);
  if(t.dataset.editTxn){const x=data.transactions.find(v=>v.id===t.dataset.editTxn);if(x)openTxn(x)}
  if(t.dataset.editAccount){const x=data.accounts.find(v=>v.id===t.dataset.editAccount);if(x)openAccount(x)}
  if(t.dataset.goalAdd){const g=data.goals.find(x=>x.id===t.dataset.goalAdd);const v=prompt("কত টাকা সঞ্চয় যোগ করবে?", "500");if(v!==null&&Number(v)>0)await patch("goals",g.id,{saved:Number(g.saved||0)+Number(v)})}
@@ -230,7 +288,7 @@ function openTxn(t){
  $("modal").classList.add("sheet");
  $("modalBody").querySelectorAll("[name=type]").forEach(r=>r.onchange=()=>{const cur=Object.fromEntries(new FormData($("modalForm")).entries());$("txnDyn").innerHTML=txnDyn(cur.type,cur)});
 }
-$("addTxn").onclick=$("addTxnTop").onclick=()=>openTxn();
+$("addTxn").onclick=$("addTxnTop").onclick=$("fab").onclick=()=>openTxn();
 function openAccount(a){
  const e=!!(a&&a.id),v=e?a:{type:"নগদ",opening:0};
  openModal(e?"অ্যাকাউন্ট এডিট":"নতুন অ্যাকাউন্ট",
@@ -252,7 +310,7 @@ $("backupJson").onclick=()=>download(`hisab-green-backup-${today()}.json`,JSON.s
 $("loginBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("")}catch(e){setMsg(e.message)}};
 $("signupBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await createUserWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("অ্যাকাউন্ট তৈরি হয়েছে।")}catch(e){setMsg(e.message)}};
 $("logoutBtn").onclick=()=>signOut(auth);
-if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){console.warn("Firestore offline cache:",e);db=getFirestore(app)}onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";$("setupNotice").classList.add("hidden");if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না。"}
+if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){console.warn("Firestore offline cache:",e);db=getFirestore(app)}onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[],meals:[],mealDeposits:[],mealSettings:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না。"}
 // PWA install button: show the native install prompt where supported; otherwise give browser-specific guidance.
 let deferredInstallPrompt = null;
 const installAppBtn = $("installAppBtn");
