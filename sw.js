@@ -1,4 +1,4 @@
-const VERSION = "v3";
+const VERSION = "v4";
 const SHELL_CACHE = `hisab-green-shell-${VERSION}`;
 const RUNTIME_CACHE = `hisab-green-runtime-${VERSION}`;
 const APP_SHELL = [
@@ -7,7 +7,10 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./icons/icon-512-maskable.png"
+  "./icons/icon-512-maskable.png",
+  "./icons/apple-touch-icon.png",
+  "./icons/favicon-32.png",
+  "./favicon.ico"
 ];
 
 self.addEventListener("install", event => {
