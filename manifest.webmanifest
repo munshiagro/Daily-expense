@@ -1,6 +1,6 @@
 {
-  "name": "Hisab Green — Personal Finance Manager",
-  "short_name": "Hisab Green",
+  "name": "আমার হিসাব",
+  "short_name": "আমার হিসাব",
   "description": "ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব",
   "lang": "bn",
   "start_url": "./index.html",
