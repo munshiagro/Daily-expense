@@ -20,7 +20,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
 <body>
 <header>
  <div><h1>🌿 Hisab Green</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
- <div class="header-actions"><span id="userEmail" class="muted" style="color:#d6e9dc"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
+ <div class="header-actions"><button id="installAppBtn" type="button" aria-label="এপ হিসেবে ডাউনলোড করুন">⬇️ এপ হিসেবে ডাউনলোড করুন</button><span id="userEmail" class="muted" style="color:#d6e9dc"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
 </header>
 <main>
  <div id="setupNotice" class="notice">প্রথমবার চালানোর আগে README_SETUP_BN.txt অনুসারে Firebase config বসাও এবং Authentication ও Firestore চালু করো। এই ডেমো ফাইলে বাস্তব Firebase সংযোগের জন্য কনফিগ প্রয়োজন।</div>
@@ -85,7 +85,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
 <dialog id="modal"><form id="modalForm"><div class="modal-head"><strong id="modalTitle">নতুন তথ্য</strong><button type="button" id="closeModal" class="small" style="background:#ffffff22;color:white">✕</button></div><div id="modalBody" class="modal-body"></div><div class="modal-foot"><button type="button" class="ghost" id="cancelModal">বাতিল</button><button class="primary" type="submit">সংরক্ষণ</button></div></form></dialog>
 <div id="toast" class="toast hidden"></div>
 <script type="module">
-/* Firebase modular SDK CDN. Replace firebaseConfig values before use. */
+/* Firebase modular SDK CDN. Firebase config is set for this project. */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
@@ -172,6 +172,43 @@ $("loginBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML
 $("signupBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await createUserWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("অ্যাকাউন্ট তৈরি হয়েছে।")}catch(e){setMsg(e.message)}};
 $("logoutBtn").onclick=()=>signOut(auth);
 if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";$("setupNotice").classList.add("hidden");if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না。"}
+// PWA install button: show the native install prompt where supported; otherwise give browser-specific guidance.
+let deferredInstallPrompt = null;
+const installAppBtn = $("installAppBtn");
+const standaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+if (standaloneMode) {
+  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
+  installAppBtn.disabled = true;
+  installAppBtn.style.opacity = ".8";
+}
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+installAppBtn.addEventListener("click", async () => {
+  if (standaloneMode) return;
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    return;
+  }
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isAndroid) {
+    alert("Hisab Green ইনস্টল করতে Chrome-এর উপরের ⋮ মেনু খুলুন, তারপর ‘Install app’ অথবা ‘Add to Home screen’ চাপুন। অপশন না এলে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");
+  } else if (isIOS) {
+    alert("Hisab Green ইনস্টল করতে Safari-এর Share বাটন চাপুন, তারপর ‘Add to Home Screen’ নির্বাচন করুন।");
+  } else {
+    alert("এই ব্রাউজারে ইনস্টল প্রম্পট এখন পাওয়া যাচ্ছে না। Chrome বা Edge-এ ওয়েবসাইটটি খুলে অ্যাড্রেস বারের Install আইকন অথবা ব্রাউজার মেনুর ‘Install app’ অপশন ব্যবহার করুন।");
+  }
+});
+window.addEventListener("appinstalled", () => {
+  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
+  installAppBtn.disabled = true;
+  installAppBtn.style.opacity = ".8";
+});
+
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.warn("PWA service worker:", err)));
 }
