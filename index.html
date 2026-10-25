@@ -91,10 +91,13 @@ import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWith
 import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyAmUeGOvniGIzEiUPigC3yWdGfC1WQY1xg",
+  authDomain: "my-first-firebase-projec-a2f88.firebaseapp.com",
+  projectId: "my-first-firebase-projec-a2f88",
+  storageBucket: "my-first-firebase-projec-a2f88.firebasestorage.app",
+  messagingSenderId: "1070550437927",
+  appId: "1:1070550437927:web:e85318669ce6239f763e02",
+  measurementId: "G-286RF8TGF1"
 };
 const configReady = !Object.values(firebaseConfig).some(v=>String(v).startsWith("PASTE_"));
 let auth, db, currentUser, unsubscribers=[], data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};
