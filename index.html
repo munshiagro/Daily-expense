@@ -27,13 +27,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(560px,calc(100% - 24px));
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}.chip2 input{display:none}.chip2 span{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:12px;font-size:13px;background:#fff;cursor:pointer}.chip2 .ico{width:28px;height:28px;font-size:14px}.chip2 input:checked+span{background:var(--mint);border-color:#2d8053;font-weight:700}
 .bnav{display:none}.more{position:fixed;bottom:88px;right:14px;background:#fff;border-radius:16px;box-shadow:0 8px 30px #0003;padding:8px;z-index:21;display:flex;flex-direction:column;gap:4px}
 @media(max-width:800px){.tabs{display:none}main{padding-bottom:100px}.toast{bottom:92px}.bnav{display:flex;position:fixed;bottom:10px;left:10px;right:10px;background:#fff;border-radius:22px;box-shadow:0 8px 30px #0003;padding:6px;z-index:20}.bnav button{background:none;color:#5b6b62;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:7px 4px;border-radius:16px;flex:1}.bnav button b{font-size:19px}.bnav button.active{background:var(--mint);color:var(--green)}dialog.sheet{margin:auto auto 0;width:100%;max-width:560px;border-radius:24px 24px 0 0}.hero .value{font-size:28px}}
-.tagline{display:inline-flex;align-items:center;gap:8px;background:#ffffff1c;border:1px solid #ffffff35;color:#fff;padding:9px 14px;border-radius:99px;font-size:13px;font-weight:650}
+.install-btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px!important}
 </style>
 </head>
 <body>
 <header>
  <div><h1>🌿 আমার হিসাব</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
- <div class="header-actions"><span class="tagline"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16.5" cy="14" r="1.2" fill="currentColor"/></svg>সহজ হিসাব, নিশ্চিন্ত ভবিষ্যৎ</span><span id="userEmail" class="muted" style="color:#d6e9dc"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
+ <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="muted" style="color:#d6e9dc"></span><button id="logoutBtn" class="hidden">লগআউট</button></div>
 </header>
 <main>
  <div id="setupNotice" class="notice">প্রথমবার চালানোর আগে README_SETUP_BN.txt অনুসারে Firebase config বসাও এবং Authentication ও Firestore চালু করো। এই ডেমো ফাইলে বাস্তব Firebase সংযোগের জন্য কনফিগ প্রয়োজন।</div>
@@ -156,6 +156,27 @@ function renderLine(m){
 }
 function renderDash(m,tx){
  $("monthLabel").textContent=monthLabel(m);
+ const cats={};tx.filter(t=>t.type==="expense").forEach(t=>{const k=t.category||"অন্যান্য";cats[k]=(cats[k]||0)+Number(t.amount||0)});
+ const total=Object.values(cats).reduce((a,b)=>a+b,0);
+ $("categorySummary").innerHTML=total?donut(cats,total)+Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="catrow"><i class="ico" style="background:${cat(k)[1]}">${cat(k)[0]}</i><div><b>${esc(k)}</b><small>${(v/total*100).toFixed(1)}%</small></div><strong>${money(v)}</strong></div>`).join(""):"এখনো কোনো খরচ নেই।";
+ const keys=[...new Set([...data.budgets.map(b=>b.category),...Object.keys(cats)])].slice(0,8);
+ $("budgetSummary").innerHTML=keys.length?`<div class="tiles">${keys.map(k=>{const b=data.budgets.find(x=>x.category===k),u=cats[k]||0,p=b?Math.min(100,u/Math.max(1,Number(b.limit))*100):0;return `<div class="tile"><i class="ico" style="background:${cat(k)[1]}">${cat(k)[0]}</i><b>${esc(k)}</b><span>${money(u)}</span>${b?`<small>বাজেট ${money(b.limit)}</small><div class="barline"><span style="width:${p}%;background:${p>=100?"#b73b3b":cat(k)[1]}"></span></div>`:""}</div>`}).join("")}</div>`:"বাজেট যোগ করলে বা খরচ করলে এখানে দেখা যাবে।";
+ renderLine(m);
+}
+const GC=["#3b82f6","#1f5b40","#8b5cf6","#f59e0b","#ef4444","#0ea5e9"];
+function renderGoals(){
+ const sv=data.goals.reduce((s,g)=>s+Number(g.saved||0),0),tg=data.goals.reduce((s,g)=>s+Number(g.target||0),0);
+ $("goalSummary").innerHTML=data.goals.length?`<div class="row" style="margin-bottom:12px"><div class="gsum"><small>সঞ্চিত</small><b class="positive">${money(sv)}</b></div><div class="gsum"><small>লক্ষ্য</small><b style="color:#3b82f6">${money(tg)}</b></div></div>`:"";
+ $("goalList").innerHTML=data.goals.length?data.goals.map((g,i)=>{const c=GC[i%GC.length],p=Math.min(100,Number(g.saved||0)/Math.max(1,Number(g.target))*100),rem=Math.max(0,Number(g.target)-Number(g.saved||0));return `<div class="goal"><div class="goal-top"><i class="ico big" style="background:${c}22;color:${c}">${esc(g.icon||"🎯")}</i><div style="flex:1"><b>${esc(g.name)}</b><div class="muted">${Math.round(p)}% সঞ্চিত</div></div><div style="text-align:right"><b style="color:${c};font-size:17px">${money(g.saved)}</b><div class="muted">/ ${money(g.target)}</div></div></div><div class="barline" style="height:9px"><span style="width:${p}%;background:${c}"></span></div><div class="goal-foot"><span class="muted">🏁 ${money(rem)} বাকি</span><span class="muted">${g.targetDate?esc(monthLabel(g.targetDate)):""}</span></div><div style="margin-top:8px"><button class="secondary small" data-goal-add="${g.id}">সঞ্চয় যোগ</button> <button class="danger small" data-del-goal="${g.id}">মুছুন</button></div></div>`}).join(""):`<div class="empty">একটি সঞ্চয়ের লক্ষ্য তৈরি করো।</div>`;
+}
+function amtClass(t){return t.type==="income"?"positive":t.type==="expense"?"negative":""}
+function amtText(t){return (t.type==="income"?"+":t.type==="expense"?"\u2212":"\u21c4 ")+money(t.amount)}
+function txnAccount(t){const n=id=>data.accounts.find(a=>a.id===id)?.name||"\u2014";return t.type==="transfer"?`${n(t.fromId)} \u2192 ${n(t.toId)}`:n(t.accountId)}
+function render(){
+ const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
+ $("totalBalance").textContent=money(data.accounts.reduce((s,a)=>s+accountBalance(a.id),0));$("monthIncome").textContent=money(inc);$("monthExpense").textContent=money(exp);$("monthNet").textContent=money(inc-exp);
+ const rows=[...data.transactions].sort((a,b)=>(b.date||"").localeCompare(a.date||""));const recent=rows.slice(0,6);
+ $("recentTransactions").innerHTML=recent.length?`<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>বিবরণ</th><th>পরিমাণ</th></tr></thead><tbody>${recent.map(t=>`<tr><td>${esc(t.date)}</td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"লেনদেন"))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">এখনো কোনো লেনদেন নেই।</div>`;
  renderDash(m,tx);
  const filtered=rows.filter(t=>{const s=$("searchTxn").value.toLowerCase(),typ=$("filterType").value,mon=$("filterMonth").value;return (!s||`${t.note||""} ${t.category||""}`.toLowerCase().includes(s))&&(!typ||t.type===typ)&&(!mon||(t.date||"").startsWith(mon))});
  $("txnTable").innerHTML=filtered.length?filtered.map(t=>`<tr><td>${esc(t.date)}</td><td><span class="pill ${t.type==="expense"?"out":t.type==="transfer"?"transfer":""}">${t.type==="income"?"আয়":t.type==="expense"?"খরচ":"ট্রান্সফার"}</span></td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"—"))}<div class="muted">${esc(t.category||"")}</div></td><td>${esc(txnAccount(t))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td><td><button class="secondary small" data-edit-txn="${t.id}">এডিট</button> <button class="danger small" data-del-txn="${t.id}">মুছুন</button></td></tr>`).join(""):`<tr><td colspan="6" class="empty">কোনো লেনদেন পাওয়া যায়নি।</td></tr>`;
@@ -230,6 +251,43 @@ $("loginBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML
 $("signupBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await createUserWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("অ্যাকাউন্ট তৈরি হয়েছে।")}catch(e){setMsg(e.message)}};
 $("logoutBtn").onclick=()=>signOut(auth);
 if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){console.warn("Firestore offline cache:",e);db=getFirestore(app)}onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";$("setupNotice").classList.add("hidden");if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না。"}
+// PWA install button: show the native install prompt where supported; otherwise give browser-specific guidance.
+let deferredInstallPrompt = null;
+const installAppBtn = $("installAppBtn");
+const standaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+if (standaloneMode) {
+  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
+  installAppBtn.disabled = true;
+  installAppBtn.style.opacity = ".8";
+}
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+installAppBtn.addEventListener("click", async () => {
+  if (standaloneMode) return;
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    return;
+  }
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isAndroid) {
+    alert("Hisab Green ইনস্টল করতে Chrome-এর উপরের ⋮ মেনু খুলুন, তারপর ‘Install app’ অথবা ‘Add to Home screen’ চাপুন। অপশন না এলে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");
+  } else if (isIOS) {
+    alert("Hisab Green ইনস্টল করতে Safari-এর Share বাটন চাপুন, তারপর ‘Add to Home Screen’ নির্বাচন করুন।");
+  } else {
+    alert("এই ব্রাউজারে ইনস্টল প্রম্পট এখন পাওয়া যাচ্ছে না। Chrome বা Edge-এ ওয়েবসাইটটি খুলে অ্যাড্রেস বারের Install আইকন অথবা ব্রাউজার মেনুর ‘Install app’ অপশন ব্যবহার করুন।");
+  }
+});
+window.addEventListener("appinstalled", () => {
+  installAppBtn.textContent = "✓ অ্যাপ ইনস্টল করা আছে";
+  installAppBtn.disabled = true;
+  installAppBtn.style.opacity = ".8";
+});
+
 window.addEventListener("offline",()=>toast("ইন্টারনেট নেই — অফলাইন মোডে চলছে, ফিরলে ডেটা সিঙ্ক হবে"));
 window.addEventListener("online",()=>toast("ইন্টারনেট ফিরেছে — ডেটা সিঙ্ক হচ্ছে"));
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
