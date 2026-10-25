@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#123d2c">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Hisab Green — Personal Finance Manager</title>
 <style>
 :root{--bg:#f3f7f3;--card:#fff;--green:#123d2c;--green2:#1f5b40;--mint:#dff3e5;--text:#172820;--muted:#6c7b72;--border:#dce7df;--red:#b73b3b;--amber:#986b12;--shadow:0 8px 24px #123d2c0c}
@@ -166,7 +168,10 @@ $("backupJson").onclick=()=>download(`hisab-green-backup-${today()}.json`,JSON.s
 $("loginBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("")}catch(e){setMsg(e.message)}};
 $("signupBtn").onclick=async()=>{if(!configReady){setMsg("প্রথমে HTML ফাইলে Firebase config বসাও। README দেখো।");return}try{await createUserWithEmailAndPassword(auth,$("email").value,$("password").value);setMsg("অ্যাকাউন্ট তৈরি হয়েছে।")}catch(e){setMsg(e.message)}};
 $("logoutBtn").onclick=()=>signOut(auth);
-if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";$("setupNotice").classList.add("hidden");if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না।"}
+if(configReady){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,u=>{currentUser=u;$("authView").classList.toggle("hidden",!!u);$("appView").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);$("userEmail").textContent=u?.email||"";$("setupNotice").classList.add("hidden");if(u)subscribeAll();else{unsubscribers.forEach(f=>f());unsubscribers=[];data={transactions:[],accounts:[],budgets:[],goals:[],debts:[],bills:[]};render()}})}else{$("authMessage").textContent="Firebase config বসানোর আগে লগইন/সাইনআপ কাজ করবে না。"}
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.warn("PWA service worker:", err)));
+}
 </script>
 </body>
 </html>
