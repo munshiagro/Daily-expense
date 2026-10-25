@@ -54,10 +54,11 @@ input:focus,select:focus{outline:2px solid #2d8053;outline-offset:1px}th{backgro
 .mealbtn{width:42px;height:34px;border-radius:12px;background:#eef3ef;color:#fff;padding:0;display:inline-grid;place-items:center;border:1px dashed #cfdcd3}.mealbtn.on{background:linear-gradient(135deg,#34c27a,#1f6a48);border:0;box-shadow:0 4px 10px #1f6a4840}
 .mealcard{border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:10px;background:#fbfdfb}.mc-h{display:flex;justify-content:space-between;margin-bottom:10px}.mc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}.mc-row small{display:block;color:var(--muted);font-size:12px}.mc-row strong{font-size:20px}.mc-total strong{color:#1f6a48}
 .pill.off{background:#eef1ee;color:#9aa8a0;text-decoration:line-through}
+#confirmDlg{width:min(380px,calc(100% - 32px))}.cf{padding:26px 22px 20px;text-align:center}.cf .cfi{width:54px;height:54px;border-radius:50%;background:#fde8e8;color:#b73b3b;display:grid;place-items:center;margin:0 auto 12px}.cf .cfi .ic{width:26px;height:26px}.cf p{margin:0 0 18px;font-weight:650;line-height:1.5}.cf .row{gap:10px}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16.5" cy="14" r="1.2"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></symbol><symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></symbol><symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="i-meal" viewBox="0 0 24 24"><path d="M4 3v7a2 2 0 0 0 2 2v9M8 3v7M12 3v7a2 2 0 0 1-2 2"/><path d="M18 3c-2 1-3 4-3 7 0 1.5 1 2 3 2v9"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16.5" cy="14" r="1.2"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></symbol><symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></symbol><symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="i-meal" viewBox="0 0 24 24"><path d="M4 3v7a2 2 0 0 0 2 2v9M8 3v7M12 3v7a2 2 0 0 1-2 2"/><path d="M18 3c-2 1-3 4-3 7 0 1.5 1 2 3 2v9"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol></defs></svg>
 <header>
  <div><h1><span class="logo"><svg class="ic"><use href="#i-leaf"/></svg></span>আমার হিসাব</h1><p>ব্যক্তিগত ও পারিবারিক আয়-ব্যয়ের হিসাব</p></div>
  <div class="header-actions"><button id="installAppBtn" type="button" class="install-btn" aria-label="ফোনে অ্যাপ ইনস্টল করুন"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg><span>ফোনে অ্যাপ ইনস্টল করুন</span></button><span id="userEmail" class="useremail"></span><button id="logoutBtn" class="hidden"><svg class="ic"><use href="#i-out"/></svg>লগআউট</button></div>
@@ -129,6 +130,7 @@ input:focus,select:focus{outline:2px solid #2d8053;outline-offset:1px}th{backgro
  <div class="foot">আমার হিসাব · সংস্করণ ৩ · BDT (৳) · ব্যক্তিগত আর্থিক তথ্য সুরক্ষিত রাখো</div>
 </main>
 <dialog id="modal"><form id="modalForm"><div class="modal-head"><strong id="modalTitle">নতুন তথ্য</strong><button type="button" id="closeModal" class="small" style="background:#ffffff22;color:white">✕</button></div><div id="modalBody" class="modal-body"></div><div class="modal-foot"><button type="button" class="ghost" id="cancelModal">বাতিল</button><button class="primary" type="submit">সংরক্ষণ</button></div></form></dialog>
+<dialog id="confirmDlg"><div class="cf"><div class="cfi"><svg class="ic"><use href="#i-alert"/></svg></div><p id="cfMsg"></p><div class="row"><button id="cfNo" class="ghost" type="button">না, থাক</button><button id="cfOk" type="button">হ্যাঁ</button></div></div></dialog>
 <button id="fab" class="fab no-print" aria-label="নতুন লেনদেন"><svg class="ic"><use href="#i-plus"/></svg></button>
 <div id="toast" class="toast hidden"></div>
 <script type="module">
@@ -165,9 +167,10 @@ function field(label,name,type="text",value="",extra=""){return `<div class="fie
 function selectField(label,name,options){return `<div class="field"><label>${label}</label><select name="${name}" required>${options}</select></div>`}
 function openModal(title,body,save){$("modal").classList.remove("sheet");$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modal").showModal();$("modalForm").onsubmit=async e=>{e.preventDefault();const obj=Object.fromEntries(new FormData(e.target).entries());try{await save(obj);$("modal").close();toast("সংরক্ষণ হয়েছে");}catch(err){toast("সংরক্ষণ হয়নি: "+(err.message||err))}}}
 $("closeModal").onclick=$("cancelModal").onclick=()=>$("modal").close();
+function askConfirm(msg,ok="হ্যাঁ, নিশ্চিত",danger=true){return new Promise(res=>{const d=$("confirmDlg"),b=$("cfOk");$("cfMsg").textContent=msg;b.textContent=ok;b.className=danger?"danger":"primary";const done=v=>{d.close();res(v)};b.onclick=()=>done(true);$("cfNo").onclick=()=>done(false);d.oncancel=()=>res(false);d.showModal()})}
 async function add(kind,obj){if(!currentUser)throw Error("আগে লগইন করো");addDoc(collection(db,"users",currentUser.uid,kind),{...obj,createdAt:serverTimestamp()}).catch(e=>toast("সংরক্ষণ হয়নি: "+(e.message||e)))}
 async function patch(kind,id,obj){updateDoc(doc(db,"users",currentUser.uid,kind,id),obj).catch(e=>toast("আপডেট হয়নি: "+(e.message||e)))}
-async function remove(kind,id){if(confirm("এই তথ্যটি মুছে ফেলবে?"))deleteDoc(doc(db,"users",currentUser.uid,kind,id)).catch(e=>toast("মোছা যায়নি: "+(e.message||e)))}
+async function remove(kind,id){if(await askConfirm("এই তথ্যটি স্থায়ীভাবে মুছে যাবে। আপনি কি নিশ্চিত?","হ্যাঁ, মুছুন"))deleteDoc(doc(db,"users",currentUser.uid,kind,id)).catch(e=>toast("মোছা যায়নি: "+(e.message||e)))}
 function subscribeAll(){unsubscribers.forEach(u=>u());unsubscribers=[];for(const kind of Object.keys(data)){const q=query(collection(db,"users",currentUser.uid,kind));unsubscribers.push(onSnapshot(q,s=>{data[kind]=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>toast("ডেটা পড়া যায়নি: "+e.message)))}}
 function accountBalance(id){let b=Number(data.accounts.find(a=>a.id===id)?.opening||0);for(const t of data.transactions){if(t.type==="income"&&t.accountId===id)b+=Number(t.amount||0);if(t.type==="expense"&&t.accountId===id)b-=Number(t.amount||0);if(t.type==="transfer"){if(t.fromId===id)b-=Number(t.amount||0);if(t.toId===id)b+=Number(t.amount||0)}}return b}
 let viewMonth=monthNow(),lineMode="daily";
@@ -255,12 +258,12 @@ document.addEventListener("click",async e=>{
  if(t.dataset.delGoal)await remove("goals",t.dataset.delGoal);
  if(t.dataset.delDebt)await remove("debts",t.dataset.delDebt);
  if(t.dataset.delBill)await remove("bills",t.dataset.delBill);
- const mb=t.closest&&t.closest("[data-meal]");if(mb){const [ds,k]=mb.dataset.meal.split("|");toggleMeal(ds,k)}
+ const mb=t.closest&&t.closest("[data-meal]");if(mb){const [ds,k]=mb.dataset.meal.split("|");const cur=data.meals.find(r=>r.id===ds);if(cur&&cur[k]&&!await askConfirm("এই বেলার মিলের মার্ক তুলে নেবেন?","হ্যাঁ, তুলে নিন"))return;toggleMeal(ds,k)}
  if(t.dataset.delMdep)await remove("mealDeposits",t.dataset.delMdep);
  if(t.dataset.editTxn){const x=data.transactions.find(v=>v.id===t.dataset.editTxn);if(x)openTxn(x)}
  if(t.dataset.editAccount){const x=data.accounts.find(v=>v.id===t.dataset.editAccount);if(x)openAccount(x)}
- if(t.dataset.goalAdd){const g=data.goals.find(x=>x.id===t.dataset.goalAdd);const v=prompt("কত টাকা সঞ্চয় যোগ করবে?", "500");if(v!==null&&Number(v)>0)await patch("goals",g.id,{saved:Number(g.saved||0)+Number(v)})}
- if(t.dataset.debtPay){const d=data.debts.find(x=>x.id===t.dataset.debtPay);const v=prompt("মোট পরিশোধিত টাকা লিখো",String(d.paid||0));if(v!==null&&Number(v)>=0&&Number(v)<=Number(d.amount))await patch("debts",d.id,{paid:Number(v)})}
+ if(t.dataset.goalAdd){const g=data.goals.find(x=>x.id===t.dataset.goalAdd);const v=prompt("কত টাকা সঞ্চয় যোগ করবে?", "500");if(v!==null&&Number(v)>0&&await askConfirm(money(v)+" সঞ্চয় যোগ করবেন?","হ্যাঁ, যোগ করুন",false))await patch("goals",g.id,{saved:Number(g.saved||0)+Number(v)})}
+ if(t.dataset.debtPay){const d=data.debts.find(x=>x.id===t.dataset.debtPay);const v=prompt("মোট পরিশোধিত টাকা লিখো",String(d.paid||0));if(v!==null&&Number(v)>=0&&Number(v)<=Number(d.amount)&&await askConfirm("পরিশোধের পরিমাণ আপডেট করবেন?","হ্যাঁ, আপডেট করুন",false))await patch("debts",d.id,{paid:Number(v)})}
  }catch(err){toast(err.message||"সমস্যা হয়েছে")}
 });
 function txnDyn(type,v){v=v||{};
@@ -283,7 +286,7 @@ function openTxn(t){
     if(o.fromId===o.toId)throw Error("একই অ্যাকাউন্টে ট্রান্সফার করা যাবে না");
     if(editing)Object.assign(o,{category:deleteField(),accountId:deleteField()});
    }else if(editing)Object.assign(o,{fromId:deleteField(),toId:deleteField()});
-   if(editing)await patch("transactions",t.id,o);else await add("transactions",o);
+   if(editing){if(!await askConfirm("লেনদেনের পরিবর্তনগুলো সংরক্ষণ করবেন?","হ্যাঁ, সংরক্ষণ করুন",false))throw Error("পরিবর্তন বাতিল করা হয়েছে");await patch("transactions",t.id,o)}else await add("transactions",o);
   });
  $("modal").classList.add("sheet");
  $("modalBody").querySelectorAll("[name=type]").forEach(r=>r.onchange=()=>{const cur=Object.fromEntries(new FormData($("modalForm")).entries());$("txnDyn").innerHTML=txnDyn(cur.type,cur)});
@@ -295,7 +298,7 @@ function openAccount(a){
   field("অ্যাকাউন্টের নাম","name","text",v.name||"",'required placeholder="নগদ / ব্যাংক / বিকাশ"')
   +selectField("ধরন","type",["নগদ","ব্যাংক","মোবাইল ওয়ালেট","অন্যান্য"].map(x=>`<option${x===v.type?" selected":""}>${x}</option>`).join(""))
   +field("শুরুর ব্যালেন্স (৳)","opening","number",v.opening??0,'min="0" step="0.01" required'),
-  async o=>{o.opening=Number(o.opening);if(e)await patch("accounts",a.id,o);else await add("accounts",o)});
+  async o=>{o.opening=Number(o.opening);if(e){if(!await askConfirm("অ্যাকাউন্টের পরিবর্তনগুলো সংরক্ষণ করবেন?","হ্যাঁ, সংরক্ষণ করুন",false))throw Error("পরিবর্তন বাতিল করা হয়েছে");await patch("accounts",a.id,o)}else await add("accounts",o)});
 }
 $("addAccount").onclick=()=>openAccount();
 $("addBudget").onclick=()=>openModal("মাসিক বাজেট",`${selectField("ক্যাটাগরি","category",catOptions("expense"))}${field("মাসিক সীমা (৳)","limit","number","","required min=\"1\"")}`,async o=>{o.limit=Number(o.limit);await add("budgets",o)});
