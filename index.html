@@ -86,6 +86,7 @@ body:has(#authView:not(.hidden)){background:linear-gradient(160deg,#0e3325,#1f6a
 .pill.due{background:#fde8e8;color:#b73b3b}.pill.soon{background:#fff3d6;color:#9a6b00}
 .alertbar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff6df,#fff);border:1px solid #f3dfa6;border-radius:22px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow)}.al-ic{width:42px;height:42px;border-radius:14px;background:#ffe9a8;display:grid;place-items:center;font-size:20px}
 .logo:has(img),.splogo:has(img){background:none!important;box-shadow:none}.logo img,.splogo img{width:100%;height:100%;display:block;border-radius:50%}.splogo:has(img){border-radius:50%;filter:drop-shadow(0 18px 30px #0007)}
+.infobox{display:flex;gap:8px;background:#f3faf5;border:1px solid #dcebe1;border-radius:18px;padding:12px;margin-bottom:14px}.infobox div{flex:1;text-align:center}.infobox small{display:block;color:var(--muted);font-size:12px}.infobox b{font-size:16px}.chips{grid-template-columns:1fr}
 </style>
 </head>
 <body>
@@ -207,7 +208,7 @@ function field(label,name,type="text",value="",extra=""){return `<div class="fie
 function selectField(label,name,options){return `<div class="field"><label>${label}</label><select name="${name}" required>${options}</select></div>`}
 function openModal(title,body,save){$("modal").classList.remove("sheet");$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modal").showModal();$("modalForm").onsubmit=async e=>{e.preventDefault();const obj=Object.fromEntries(new FormData(e.target).entries());try{await save(obj);$("modal").close();toast("সংরক্ষণ হয়েছে");}catch(err){toast("সংরক্ষণ হয়নি: "+(err.message||err))}}}
 $("closeModal").onclick=$("cancelModal").onclick=()=>$("modal").close();
-function askConfirm(msg,ok="হ্যাঁ, নিশ্চিত",danger=true){return new Promise(res=>{const d=$("confirmDlg"),b=$("cfOk");$("cfMsg").textContent=msg;b.textContent=ok;b.className=danger?"danger":"primary";const done=v=>{d.close();res(v)};b.onclick=()=>done(true);$("cfNo").onclick=()=>done(false);d.oncancel=()=>res(false);d.showModal()})}
+function askConfirm(msg,ok="হ্যাঁ, নিশ্চিত",danger=true,info=false){return new Promise(res=>{const d=$("confirmDlg"),b=$("cfOk");$("cfNo").style.display=info?"none":"";$("cfMsg").textContent=msg;b.textContent=ok;b.className=danger?"danger":"primary";const done=v=>{d.close();res(v)};b.onclick=()=>done(true);$("cfNo").onclick=()=>done(false);d.oncancel=()=>res(false);d.showModal()})}
 async function add(kind,obj){if(!currentUser)throw Error("আগে লগইন করো");addDoc(collection(db,"users",currentUser.uid,kind),{...obj,createdAt:serverTimestamp()}).catch(e=>toast("সংরক্ষণ হয়নি: "+(e.message||e)))}
 async function patch(kind,id,obj){updateDoc(doc(db,"users",currentUser.uid,kind,id),obj).catch(e=>toast("আপডেট হয়নি: "+(e.message||e)))}
 async function remove(kind,id){if(await askConfirm("এই তথ্যটি স্থায়ীভাবে মুছে যাবে। আপনি কি নিশ্চিত?","হ্যাঁ, মুছুন"))deleteDoc(doc(db,"users",currentUser.uid,kind,id)).catch(e=>toast("মোছা যায়নি: "+(e.message||e)))}
@@ -322,6 +323,17 @@ function openRecurring(r){const e=!!(r&&r.id),v=e?r:{type:"income",day:1};if(!da
  openModal(e?"আবর্তক লেনদেন এডিট":"নতুন আবর্তক লেনদেন",selectField("ধরন","type",`<option value="income"${v.type==="income"?" selected":""}>আয় (যেমন বেতন)</option><option value="expense"${v.type==="expense"?" selected":""}>খরচ (যেমন বাসা ভাড়া)</option>`)+`<div id="recCat">${selectField("ক্যাটাগরি","category",catOptions(v.type,v.category))}</div>`+selectField("কোন অ্যাকাউন্টে","accountId",accountOptions(v.accountId))+field("পরিমাণ (৳)","amount","number",v.amount??"",'required min="1"')+field("প্রতি মাসের কত তারিখে","day","number",v.day,'required min="1" max="31"')+field("বিবরণ","note","text",v.note||"",'placeholder="যেমন: মাসিক বেতন"'),async o=>{o.amount=Number(o.amount);o.day=Number(o.day);if(!e)o.startMonth=today().slice(0,7);await saveEdit("recurring",e&&r.id,o)});
  $("modalBody").querySelector("[name=type]").onchange=ev=>{$("recCat").innerHTML=selectField("ক্যাটাগরি","category",catOptions(ev.target.value))}}
 $("addRec").onclick=()=>openRecurring();
+const infoBox=a=>`<div class="infobox">${a.map(([l,v])=>`<div><small>${l}</small><b>${v}</b></div>`).join("")}</div>`;
+function openGoalAdd(g){if(!g)return;const rem=Math.max(0,Number(g.target||0)-Number(g.saved||0));
+ openModal(`${g.icon||"🎯"} ${g.name} — সঞ্চয় যোগ`,infoBox([["সঞ্চিত",money(g.saved||0)],["লক্ষ্য",money(g.target)],["বাকি",money(rem)]])+`<div class="chips4">${[100,500,1000,5000].map(x=>`<label class="chip2"><input type="radio" name="q" value="${x}"${x===500?" checked":""}><span>${x}</span></label>`).join("")}</div>`+field("অথবা নিজে লিখুন (৳)","custom","number","",'min="1" placeholder="যেমন 750"'),async o=>{
+  const x=o.custom!==""&&o.custom!=null?Number(o.custom):Number(o.q);if(!(x>0))throw Error("সঠিক পরিমাণ দিন");
+  if(!await askConfirm(`${money(x)} সঞ্চয় যোগ করবেন?`,"হ্যাঁ, যোগ করুন",false))throw Error("বাতিল করা হয়েছে");
+  await patch("goals",g.id,{saved:Number(g.saved||0)+x});toast("সঞ্চয় যোগ হয়েছে ✓")})}
+function openDebtPay(d){if(!d)return;const rem=Math.max(0,Number(d.amount||0)-Number(d.paid||0)),owe=d.type==="owe";if(!rem){toast("পুরোটাই পরিশোধ হয়ে গেছে ✓");return}
+ openModal(`${d.person} — ${owe?"পরিশোধ":"আদায়"} আপডেট`,infoBox([["মোট",money(d.amount)],[owe?"পরিশোধিত":"আদায়",money(d.paid||0)],["বাকি",money(rem)]])+`<div class="chips"><label class="chip2"><input type="radio" name="q" value="${rem}" checked><span>সম্পূর্ণ বাকি ${money(rem)}</span></label></div>`+field("অথবা আংশিক পরিমাণ (৳)","custom","number","",'min="1" placeholder="কত টাকা"'),async o=>{
+  const x=o.custom!==""&&o.custom!=null?Number(o.custom):Number(o.q);if(!(x>0))throw Error("সঠিক পরিমাণ দিন");if(x>rem)throw Error("বাকি টাকার চেয়ে বেশি দেওয়া যাবে না");
+  if(!await askConfirm(`${money(x)} ${owe?"পরিশোধ":"আদায়"} আপডেট করবেন?`,"হ্যাঁ, আপডেট করুন",false))throw Error("বাতিল করা হয়েছে");
+  await patch("debts",d.id,{paid:Number(d.paid||0)+x});toast("আপডেট হয়েছে ✓")})}
 function render(){
  runRecurring();renderRecurring();renderBillAlert();renderMeals();renderOverviews();const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
  {const ok=t=>data.accounts.some(a=>a.id===t.accountId),sum=ty=>data.transactions.filter(t=>t.type===ty&&ok(t)).reduce((s,t)=>s+Number(t.amount||0),0),allInc=data.accounts.reduce((s,a)=>s+Number(a.opening||0),0)+sum("income"),allExp=sum("expense");
@@ -362,8 +374,8 @@ document.addEventListener("click",async e=>{
  if(t.dataset.editMdep)openMealDep(G(t.dataset.editMdep,"mealDeposits"));
  if(t.dataset.editTxn){const x=data.transactions.find(v=>v.id===t.dataset.editTxn);if(x)openTxn(x)}
  if(t.dataset.editAccount){const x=data.accounts.find(v=>v.id===t.dataset.editAccount);if(x)openAccount(x)}
- if(t.dataset.goalAdd){const g=data.goals.find(x=>x.id===t.dataset.goalAdd);const v=prompt("কত টাকা সঞ্চয় যোগ করবে?", "500");if(v!==null&&Number(v)>0&&await askConfirm(money(v)+" সঞ্চয় যোগ করবেন?","হ্যাঁ, যোগ করুন",false))await patch("goals",g.id,{saved:Number(g.saved||0)+Number(v)})}
- if(t.dataset.debtPay){const d=data.debts.find(x=>x.id===t.dataset.debtPay);const v=prompt("মোট পরিশোধিত টাকা লিখো",String(d.paid||0));if(v!==null&&Number(v)>=0&&Number(v)<=Number(d.amount)&&await askConfirm("পরিশোধের পরিমাণ আপডেট করবেন?","হ্যাঁ, আপডেট করুন",false))await patch("debts",d.id,{paid:Number(v)})}
+ if(t.dataset.goalAdd)openGoalAdd(data.goals.find(x=>x.id===t.dataset.goalAdd));
+ if(t.dataset.debtPay)openDebtPay(data.debts.find(x=>x.id===t.dataset.debtPay));
  }catch(err){toast(err.message||"সমস্যা হয়েছে")}
 });
 function txnDyn(type,v){v=v||{};
@@ -436,11 +448,11 @@ installAppBtn.addEventListener("click", async () => {
   const isAndroid = /Android/i.test(navigator.userAgent);
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
   if (isAndroid) {
-    alert("Hisab Green ইনস্টল করতে Chrome-এর উপরের ⋮ মেনু খুলুন, তারপর ‘Install app’ অথবা ‘Add to Home screen’ চাপুন। অপশন না এলে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");
+    askConfirm("আমার হিসাব ইনস্টল করতে Chrome-এর উপরের ⋮ মেনু খুলুন, তারপর ‘Install app’ অথবা ‘Add to Home screen’ চাপুন। অপশন না এলে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।","বুঝেছি",false,true);
   } else if (isIOS) {
-    alert("Hisab Green ইনস্টল করতে Safari-এর Share বাটন চাপুন, তারপর ‘Add to Home Screen’ নির্বাচন করুন।");
+    askConfirm("আমার হিসাব ইনস্টল করতে Safari-এর Share বাটন চাপুন, তারপর ‘Add to Home Screen’ নির্বাচন করুন।","বুঝেছি",false,true);
   } else {
-    alert("এই ব্রাউজারে ইনস্টল প্রম্পট এখন পাওয়া যাচ্ছে না। Chrome বা Edge-এ ওয়েবসাইটটি খুলে অ্যাড্রেস বারের Install আইকন অথবা ব্রাউজার মেনুর ‘Install app’ অপশন ব্যবহার করুন।");
+    askConfirm("এই ব্রাউজারে ইনস্টল প্রম্পট এখন পাওয়া যাচ্ছে না। Chrome বা Edge-এ ওয়েবসাইটটি খুলে অ্যাড্রেস বারের Install আইকন অথবা ব্রাউজার মেনুর ‘Install app’ অপশন ব্যবহার করুন।","বুঝেছি",false,true);
   }
 });
 window.addEventListener("appinstalled", () => {
