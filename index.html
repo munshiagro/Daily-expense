@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#123d2c">
 <link rel="manifest" href="./manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
@@ -92,6 +94,20 @@ header{display:flex!important;flex-wrap:nowrap!important;align-items:center!impo
 header>div{margin:0!important;min-width:0}header h1{margin:0!important;font-size:16px!important;gap:8px!important;white-space:nowrap;line-height:1.2}header p{display:none!important}
 .logo{width:24px!important;height:24px!important;border-radius:50%!important}
 .header-actions{width:auto!important;flex:none!important;flex-wrap:nowrap!important;gap:6px!important}.header-actions button{padding:4px 11px!important;font-size:12px!important;line-height:1.3!important}.install-btn{padding:4px 8px!important}.install-btn svg{width:16px;height:16px}.header-actions .ic{width:14px;height:14px}
+
+body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,-apple-system,"Segoe UI",sans-serif}body{font-size:15.5px;line-height:1.55}h1,h2,h3,b,strong{font-weight:650}.ovc b,.hero .value{font-weight:700}
+@keyframes secIn{from{opacity:0;transform:translateY(14px)}}.section.active{animation:secIn .38s cubic-bezier(.2,.8,.2,1)}
+.panel,.ovc,.tile,.mealcard,.goal,.txrow,.daygrp{transition:transform .25s,box-shadow .25s,background .25s}.ovc:hover,.tile:hover,.goal:hover{transform:translateY(-3px)}.tabs button,.bnav button{transition:background .25s,color .25s,transform .2s}
+@keyframes shimmer{to{background-position:-200% 0}}@keyframes pulse2{50%{opacity:.5}}
+body.loading .panel,body.loading .ovc,body.loading .metric,body.loading .today{background:linear-gradient(100deg,#e9f0ea 30%,#f7faf7 50%,#e9f0ea 70%) 0 0/200% 100%!important;animation:shimmer 1.2s infinite linear!important;border-color:transparent;min-height:90px}
+body.loading .panel>*,body.loading .ovc>*,body.loading .metric>*,body.loading .today>*{visibility:hidden}body.loading .hero .value,body.loading .hchip b{color:transparent!important;background:#ffffff26;border-radius:10px;animation:pulse2 1s infinite}
+.daygrp{background:#fff;border:1px solid #e3ede6;border-radius:22px;padding:6px 14px 10px;margin-bottom:12px;box-shadow:var(--shadow)}.day-h{display:flex;justify-content:space-between;padding:10px 2px 6px;font-size:13px;color:var(--muted)}.day-h b{color:var(--text)}
+.txrow{display:flex;align-items:center;gap:12px;padding:10px 6px;border-radius:14px}.txrow+.txrow{border-top:1px solid #f0f5f1}.txrow:hover{background:#f7fbf8}.tx-m{flex:1;min-width:0}.tx-m b,.tx-m small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tx-m small{color:var(--muted);font-size:12px}.tx-r{text-align:right}.tx-b{display:flex;gap:4px;justify-content:flex-end;margin-top:4px}.tx-b .small{padding:3px 9px;font-size:11px}
+.today{background:#fff;border:1px solid #e3ede6;border-radius:24px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}.t-h{display:flex;justify-content:space-between;margin-bottom:12px}.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.t-grid small{display:block;color:var(--muted);font-size:12px}.t-grid b{font-size:19px}.t-grid em{display:block;font-style:normal;font-size:11px;color:#9a6b00}.t-ring{display:flex;align-items:center;gap:8px}.t-ring b{font-size:14px}
+.tile{position:relative}.tile .ring{position:absolute;right:10px;top:10px}.legend{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted)}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.dock-add{display:none}
+@media(max-width:800px){.fab{display:none!important}.bnav{align-items:flex-end!important;padding:6px 8px 8px!important}.bnav button.dock-add{display:grid;flex:none;width:58px;height:58px;margin:-30px 4px 0;border-radius:50%;background:linear-gradient(135deg,#34c27a,#1f6a48);color:#fff;box-shadow:0 10px 24px #123d2c66,0 0 0 6px #f2f6f3;place-items:center;padding:0}.dock-add .ic{width:28px;height:28px;stroke-width:2.6}.t-grid{grid-template-columns:1fr 1fr}.t-ring{grid-column:span 2}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -115,8 +131,9 @@ header>div{margin:0!important;min-width:0}header h1{margin:0!important;font-size
   <div class="monthbar no-print"><button id="prevMonth" class="ghost small">‹</button><strong id="monthLabel"></strong><button id="nextMonth" class="ghost small">›</button></div>
   <div class="hero"><small><svg class="ic"><use href="#i-wallet"/></svg> মোট ব্যালেন্স</small><div class="value" id="totalBalance">৳০</div><div class="hchips"><div class="hchip"><small>মোট আয় ↗</small><b id="monthIncome">৳০</b></div><div class="hchip"><small>মোট খরচ ↙</small><b id="monthExpense">৳০</b></div><div class="hchip"><small>অবশিষ্ট = ব্যালেন্স</small><b id="monthNet">৳০</b></div></div><div class="hsub" id="heroMonth"></div></div>
   <nav class="tabs no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg>ড্যাশবোর্ড</button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg>আয়-ব্যয়</button><button data-tab="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg>বাজেট ও সঞ্চয়</button><button data-tab="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button data-tab="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button data-tab="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg>রিপোর্ট</button></nav>
-  <nav class="bnav no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg><span>ড্যাশবোর্ড</span></button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg><span>আয়-ব্যয়</span></button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg><span>রিপোর্ট</span></button><button data-tab="budgets"><svg class="ic"><use href="#i-target"/></svg><span>লক্ষ্য</span></button><button id="moreBtn"><svg class="ic"><use href="#i-more"/></svg><span>আরও</span></button></nav><div id="moreSheet" class="more hidden no-print"><button class="ghost" data-goto="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button class="ghost" data-goto="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button class="ghost" data-goto="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button class="ghost" data-goto="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button></div>
+  <nav class="bnav no-print"><button data-tab="overview" class=active><svg class="ic"><use href="#i-home"/></svg><span>ড্যাশবোর্ড</span></button><button data-tab="transactions"><svg class="ic"><use href="#i-list"/></svg><span>আয়-ব্যয়</span></button><button id="dockAdd" class="dock-add" type="button" aria-label="নতুন লেনদেন"><svg class="ic"><use href="#i-plus"/></svg></button><button data-tab="reports"><svg class="ic"><use href="#i-chart"/></svg><span>রিপোর্ট</span></button><button id="moreBtn"><svg class="ic"><use href="#i-more"/></svg><span>আরও</span></button></nav><div id="moreSheet" class="more hidden no-print"><button class="ghost" data-goto="accounts"><svg class="ic"><use href="#i-wallet"/></svg>অ্যাকাউন্ট</button><button class="ghost" data-goto="debts"><svg class="ic"><use href="#i-swap"/></svg>ধার-পাওনা</button><button class="ghost" data-goto="bills"><svg class="ic"><use href="#i-cal"/></svg>নিয়মিত বিল</button><button class="ghost" data-goto="budgets"><svg class="ic"><use href="#i-target"/></svg>বাজেট ও সঞ্চয়</button><button class="ghost" data-goto="meals"><svg class="ic"><use href="#i-meal"/></svg>বাসার মিল</button></div>
   <section id="overview" class="section active">
+   <div id="todayCard"></div>
    <div id="billAlert"></div>
    <div class="layout">
     <div>
@@ -127,6 +144,7 @@ header>div{margin:0!important;min-width:0}header h1{margin:0!important;font-size
      <div class="panel"><h3>এই মাসের খরচের ধরন</h3><div id="categorySummary" class="muted">এখনো কোনো লেনদেন নেই।</div></div>
      <div class="panel"><h3>ক্যাটাগরি ও বাজেট</h3><div id="budgetSummary" class="muted">বাজেট যোগ করলে এখানে দেখা যাবে।</div></div>
      <div class="panel"><div class="panel-head"><h3>খরচের ট্রেন্ড</h3><div><button id="lcDaily" class="small primary">দৈনিক</button> <button id="lcMonthly" class="small ghost">মাসিক</button></div></div><div id="lineChart"></div></div>
+     <div class="panel"><h3>৬ মাসের আয় বনাম খরচ</h3><div id="barChart"></div></div>
     </div>
    </div>
   </section>
@@ -135,7 +153,7 @@ header>div{margin:0!important;min-width:0}header h1{margin:0!important;font-size
    <div class="panel"><div class="panel-head"><h3>আবর্তক লেনদেন</h3><button id="addRec" class="primary small">+ যোগ করো</button></div><div id="recList"></div></div>
    <div class="panel"><div class="panel-head"><h3>লেনদেনের ইতিহাস</h3><button class="primary" id="addTxn">+ নতুন লেনদেন</button></div>
     <div class="toolbar"><input id="searchTxn" placeholder="বিবরণ বা ক্যাটাগরি খুঁজুন"><select id="filterType"><option value="">সব ধরন</option><option value="income">আয়</option><option value="expense">খরচ</option><option value="transfer">ট্রান্সফার</option></select><input type="month" id="filterMonth"></div>
-    <div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th>অ্যাকাউন্ট</th><th>পরিমাণ</th><th>কাজ</th></tr></thead><tbody id="txnTable"></tbody></table></div>
+    <div id="txnTable" class="txnlist"></div>
    </div>
   </section>
   <section id="accounts" class="section">
@@ -203,7 +221,7 @@ const monthNow=()=>today().slice(0,7);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(s){$("toast").textContent=s;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3000)}
 function setMsg(s){$("authMessage").textContent=s}
-function tab(name){$("moreBtn").classList.toggle("active",["accounts","debts","bills","meals"].includes(name));$("moreSheet").classList.add("hidden");document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===name))}
+function tab(name){$("moreBtn").classList.toggle("active",["accounts","debts","bills","meals","budgets"].includes(name));$("moreSheet").classList.add("hidden");document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===name))}
 document.querySelectorAll(".tabs button,.bnav button[data-tab]").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
 $("moreBtn").onclick=()=>$("moreSheet").classList.toggle("hidden");
 document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>tab(b.dataset.goto));
@@ -217,7 +235,7 @@ function askConfirm(msg,ok="হ্যাঁ, নিশ্চিত",danger=true,
 async function add(kind,obj){if(!currentUser)throw Error("আগে লগইন করো");addDoc(collection(db,"users",currentUser.uid,kind),{...obj,createdAt:serverTimestamp()}).catch(e=>toast("সংরক্ষণ হয়নি: "+(e.message||e)))}
 async function patch(kind,id,obj){updateDoc(doc(db,"users",currentUser.uid,kind,id),obj).catch(e=>toast("আপডেট হয়নি: "+(e.message||e)))}
 async function remove(kind,id){if(await askConfirm("এই তথ্যটি স্থায়ীভাবে মুছে যাবে। আপনি কি নিশ্চিত?","হ্যাঁ, মুছুন"))deleteDoc(doc(db,"users",currentUser.uid,kind,id)).catch(e=>toast("মোছা যায়নি: "+(e.message||e)))}
-function subscribeAll(){unsubscribers.forEach(u=>u());unsubscribers=[];for(const kind of Object.keys(data)){const q=query(collection(db,"users",currentUser.uid,kind));unsubscribers.push(onSnapshot(q,s=>{data[kind]=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>toast("ডেটা পড়া যায়নি: "+e.message)))}}
+function subscribeAll(){unsubscribers.forEach(u=>u());unsubscribers=[];loaded.clear();setTimeout(()=>{loaded.add("accounts");loaded.add("transactions");render()},6000);for(const kind of Object.keys(data)){const q=query(collection(db,"users",currentUser.uid,kind));unsubscribers.push(onSnapshot(q,s=>{data[kind]=s.docs.map(d=>({id:d.id,...d.data()}));loaded.add(kind);render()},e=>toast("ডেটা পড়া যায়নি: "+e.message)))}}
 function mkData(){const d={accounts:[],budgets:[],goals:[],debts:[],bills:[],meals:[],mealDeposits:[],mealSettings:[],recurring:[]};let tx=[];
  Object.defineProperty(d,"transactions",{enumerable:true,get:()=>[...tx,...d.mealDeposits.map(x=>({id:"md_"+x.id,type:"expense",amount:x.amount,date:x.date,category:"বাসার মিল",accountId:x.accountId,note:"মিলের জমা"+(x.note?" · "+x.note:""),virtual:true}))],set:v=>{tx=v}});return d}
 function accountBalance(id){let b=Number(data.accounts.find(a=>a.id===id)?.opening||0);for(const t of data.transactions){if(t.type==="income"&&t.accountId===id)b+=Number(t.amount||0);if(t.type==="expense"&&t.accountId===id)b-=Number(t.amount||0);if(t.type==="transfer"){if(t.fromId===id)b-=Number(t.amount||0);if(t.toId===id)b+=Number(t.amount||0)}}return b}
@@ -247,7 +265,7 @@ function renderDash(m,tx){
  const total=Object.values(cats).reduce((a,b)=>a+b,0);
  $("categorySummary").innerHTML=total?donut(cats,total)+Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="catrow"><i class="ico" style="background:${cat(k)[1]}">${cat(k)[0]}</i><div><b>${esc(k)}</b><small>${(v/total*100).toFixed(1)}%</small></div><strong>${money(v)}</strong></div>`).join(""):"এখনো কোনো খরচ নেই।";
  const keys=[...new Set([...data.budgets.map(b=>b.category),...Object.keys(cats)])].slice(0,8);
- $("budgetSummary").innerHTML=keys.length?`<div class="tiles">${keys.map(k=>{const b=data.budgets.find(x=>x.category===k),u=cats[k]||0,p=b?Math.min(100,u/Math.max(1,Number(b.limit))*100):0;return `<div class="tile"><i class="ico" style="background:${cat(k)[1]}">${cat(k)[0]}</i><b>${esc(k)}</b><span>${money(u)}</span>${b?`<small>বাজেট ${money(b.limit)}</small><div class="barline"><span style="width:${p}%;background:${p>=100?"#b73b3b":cat(k)[1]}"></span></div>`:""}</div>`}).join("")}</div>`:"বাজেট যোগ করলে বা খরচ করলে এখানে দেখা যাবে।";
+ $("budgetSummary").innerHTML=keys.length?`<div class="tiles">${keys.map(k=>{const b=data.budgets.find(x=>x.category===k),u=cats[k]||0,p=b?Math.min(100,u/Math.max(1,Number(b.limit))*100):0;return `<div class="tile"><i class="ico" style="background:${cat(k)[1]}">${cat(k)[0]}</i><b>${esc(k)}</b><span>${money(u)}</span>${b?`<small>বাজেট ${money(b.limit)}</small>${ring(p,p>=100?"#b73b3b":p>=80?"#e0a21a":cat(k)[1])}`:""}</div>`}).join("")}</div>`:"বাজেট যোগ করলে বা খরচ করলে এখানে দেখা যাবে।";
  renderLine(m);
 }
 const GC=["#3b82f6","#1f5b40","#8b5cf6","#f59e0b","#ef4444","#0ea5e9"];
@@ -339,15 +357,27 @@ function openDebtPay(d){if(!d)return;const rem=Math.max(0,Number(d.amount||0)-Nu
   const x=o.custom!==""&&o.custom!=null?Number(o.custom):Number(o.q);if(!(x>0))throw Error("সঠিক পরিমাণ দিন");if(x>rem)throw Error("বাকি টাকার চেয়ে বেশি দেওয়া যাবে না");
   if(!await askConfirm(`${money(x)} ${owe?"পরিশোধ":"আদায়"} আপডেট করবেন?`,"হ্যাঁ, আপডেট করুন",false))throw Error("বাতিল করা হয়েছে");
   await patch("debts",d.id,{paid:Number(d.paid||0)+x});toast("আপডেট হয়েছে ✓")})}
+const loaded=new Set();
+document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("button")&&navigator.vibrate)navigator.vibrate(8)},true);
+function dayLabel(d){const t=today(),y=new Date(new Date(t+"T00:00:00Z").getTime()-864e5).toISOString().slice(0,10);if(d===t)return"আজ";if(d===y)return"গতকাল";const [yy,mm,dd]=d.split("-").map(Number);return isNaN(yy)?d:new Date(yy,mm-1,dd).toLocaleDateString("bn-BD",{weekday:"long",day:"numeric",month:"long"})}
+function txnCards(list){const g={};list.forEach(t=>{const k=t.date||"—";(g[k]=g[k]||[]).push(t)});
+ return Object.keys(g).sort().reverse().map(d=>{const it=g[d],net=it.reduce((s,t)=>s+(t.type==="income"?1:t.type==="expense"?-1:0)*Number(t.amount||0),0);
+  return `<div class="daygrp"><div class="day-h"><b>${dayLabel(d)}</b><span class="${net>=0?"positive":"negative"}">${net>=0?"+":"−"}${money(Math.abs(net))}</span></div>${it.map(t=>{const c=t.type==="transfer"?["⇄","#64748b"]:cat(t.category);return `<div class="txrow"><i class="ico" style="background:${c[1]}">${c[0]}</i><div class="tx-m"><b>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"—"))}</b><small>${esc(t.category||"ট্রান্সফার")} · ${esc(txnAccount(t))}</small></div><div class="tx-r"><strong class="${amtClass(t)}">${amtText(t)}</strong>${t.virtual?`<div><span class="pill">মিল ট্যাব</span></div>`:`<span class="tx-b"><button class="secondary small" data-edit-txn="${t.id}">এডিট</button><button class="danger small" data-del-txn="${t.id}">মুছুন</button></span>`}</div></div>`}).join("")}</div>`}).join("")}
+function ring(p,c,sz=44){const C=2*Math.PI*15,v=Math.min(100,Math.max(0,p));return `<svg class="ring" width="${sz}" height="${sz}" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="#e4ece6" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${v/100*C} ${C}" transform="rotate(-90 18 18)"/><text x="18" y="21.5" text-anchor="middle" font-size="9" font-weight="700" fill="#172820">${Math.round(p)}%</text></svg>`}
+function renderToday(){const t=today(),sp=data.transactions.filter(x=>x.date===t&&x.type==="expense").reduce((s,x)=>s+Number(x.amount||0),0),due=data.bills.map(b=>({b,d:billDays(b)})).filter(x=>x.d!==null&&x.d<=7).sort((a,c)=>a.d-c.d),sv=data.goals.reduce((s,g)=>s+Number(g.saved||0),0),tg=data.goals.reduce((s,g)=>s+Number(g.target||0),0);
+ $("todayCard").innerHTML=`<div class="today"><div class="t-h"><b>আজকের সারাংশ</b><span class="muted">${dayLabel(t)}</span></div><div class="t-grid"><div><small>আজকের খরচ</small><b class="negative">${money(sp)}</b></div><div><small>বিল বাকি (৭ দিনে)</small><b>${due.length}টি</b>${due[0]?`<em>${esc(due[0].b.name)}</em>`:""}</div><div class="t-ring">${ring(tg?sv/tg*100:0,"#2d8053")}<div><small>সঞ্চয়</small><b>${money(sv)}</b></div></div></div></div>`}
+function renderBars(){const [y,mo]=viewMonth.split("-").map(Number),ms=[];for(let i=5;i>=0;i--){const d=new Date(y,mo-1-i,1),k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`,f=ty=>data.transactions.filter(t=>t.type===ty&&(t.date||"").startsWith(k)).reduce((s,t)=>s+Number(t.amount||0),0);ms.push({l:d.toLocaleDateString("bn-BD",{month:"short"}),i:f("income"),e:f("expense")})}
+ const mx=Math.max(1,...ms.flatMap(m=>[m.i,m.e])),W=320,H=150,bw=14,gap=(W-12)/6,Y=v=>H-24-(v/mx)*(H-44);
+ $("barChart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%">${ms.map((m,i)=>{const x=6+i*gap+gap/2-bw-2;return `<rect x="${x}" y="${Y(m.i)}" width="${bw}" height="${H-24-Y(m.i)}" rx="5" fill="#2fb36d"/><rect x="${x+bw+4}" y="${Y(m.e)}" width="${bw}" height="${H-24-Y(m.e)}" rx="5" fill="#f08a5d"/><text x="${x+bw+2}" y="${H-8}" text-anchor="middle" font-size="10" fill="#6c7b72">${m.l}</text>`}).join("")}</svg><div class="legend"><span><i style="background:#2fb36d"></i>আয়</span><span><i style="background:#f08a5d"></i>খরচ</span></div>`}
 function render(){
- runRecurring();renderRecurring();renderBillAlert();renderMeals();renderOverviews();const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
+ document.body.classList.toggle("loading",!!currentUser&&!(loaded.has("accounts")&&loaded.has("transactions")));runRecurring();renderRecurring();renderToday();renderBars();renderBillAlert();renderMeals();renderOverviews();const m=viewMonth, tx=data.transactions.filter(t=>(t.date||"").startsWith(m)), inc=tx.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount||0),0), exp=tx.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount||0),0);
  {const ok=t=>data.accounts.some(a=>a.id===t.accountId),sum=ty=>data.transactions.filter(t=>t.type===ty&&ok(t)).reduce((s,t)=>s+Number(t.amount||0),0),allInc=data.accounts.reduce((s,a)=>s+Number(a.opening||0),0)+sum("income"),allExp=sum("expense");
 countTo($("totalBalance"),allInc-allExp,money);countTo($("monthIncome"),allInc,money);countTo($("monthExpense"),allExp,money);countTo($("monthNet"),allInc-allExp,money);$("heroMonth").textContent=`${monthLabel(m)} মাসে: আয় ${money(inc)} · খরচ ${money(exp)}`}
  const rows=[...data.transactions].sort((a,b)=>(b.date||"").localeCompare(a.date||""));const recent=rows.slice(0,6);
  $("recentTransactions").innerHTML=recent.length?`<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>বিবরণ</th><th>পরিমাণ</th></tr></thead><tbody>${recent.map(t=>`<tr><td>${esc(t.date)}</td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"লেনদেন"))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">এখনো কোনো লেনদেন নেই।</div>`;
  renderDash(m,tx);
  const filtered=rows.filter(t=>{const s=$("searchTxn").value.toLowerCase(),typ=$("filterType").value,mon=$("filterMonth").value;return (!s||`${t.note||""} ${t.category||""}`.toLowerCase().includes(s))&&(!typ||t.type===typ)&&(!mon||(t.date||"").startsWith(mon))});
- $("txnTable").innerHTML=filtered.length?filtered.map(t=>`<tr><td>${esc(t.date)}</td><td><span class="pill ${t.type==="expense"?"out":t.type==="transfer"?"transfer":""}">${t.type==="income"?"আয়":t.type==="expense"?"খরচ":"ট্রান্সফার"}</span></td><td>${esc(t.note||t.category||(t.type==="transfer"?"ট্রান্সফার":"—"))}<div class="muted">${esc(t.category||"")}</div></td><td>${esc(txnAccount(t))}</td><td class="amount ${amtClass(t)}">${amtText(t)}</td><td>${t.virtual?`<span class="pill">মিল ট্যাব থেকে</span>`:`<button class="secondary small" data-edit-txn="${t.id}">এডিট</button> <button class="danger small" data-del-txn="${t.id}">মুছুন</button>`}</td></tr>`).join(""):`<tr><td colspan="6" class="empty">কোনো লেনদেন পাওয়া যায়নি।</td></tr>`;
+ $("txnTable").innerHTML=filtered.length?txnCards(filtered):`<div class="empty">কোনো লেনদেন পাওয়া যায়নি।</div>`;
  $("accountList").innerHTML=data.accounts.length?data.accounts.map(a=>`<div class="budget-row"><div class="budget-title"><span><strong>${esc(a.name)}</strong><div class="muted">${esc(a.type==="নগদ"?"ক্যাশ":(a.type||"অ্যাকাউন্ট"))}</div></span><span><strong>${money(accountBalance(a.id))}</strong><button class="secondary small" data-edit-account="${a.id}">এডিট</button> <button class="danger small" data-del-account="${a.id}">মুছুন</button></span></div></div>`).join(""):`<div class="empty">প্রথমে ক্যাশ বা ব্যাংক অ্যাকাউন্ট যোগ করো।</div>`;
  $("budgetList").innerHTML=data.budgets.length?data.budgets.map(b=>`<div class="budget-row"><strong>${esc(b.category)}</strong> · মাসিক সীমা ${money(b.limit)} <button class="secondary small" data-edit-budget="${b.id}">এডিট</button> <button class="danger small" data-del-budget="${b.id}">মুছুন</button></div>`).join(""):`<div class="empty">এখনো বাজেট নেই।</div>`;
  renderGoals();
@@ -408,7 +438,7 @@ function openTxn(t){
  $("modal").classList.add("sheet");
  $("modalBody").querySelectorAll("[name=type]").forEach(r=>r.onchange=()=>{const cur=Object.fromEntries(new FormData($("modalForm")).entries());$("txnDyn").innerHTML=txnDyn(cur.type,cur)});
 }
-$("addTxn").onclick=$("addTxnTop").onclick=$("fab").onclick=()=>openTxn();
+$("addTxn").onclick=$("addTxnTop").onclick=$("fab").onclick=$("dockAdd").onclick=()=>openTxn();
 function openAccount(a){
  const e=!!(a&&a.id),v=e?a:{type:"ক্যাশ",opening:0};
  openModal(e?"অ্যাকাউন্ট এডিট":"নতুন অ্যাকাউন্ট",

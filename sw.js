@@ -1,4 +1,4 @@
-const VERSION = "v4";
+const VERSION = "v5";
 const SHELL_CACHE = `hisab-green-shell-${VERSION}`;
 const RUNTIME_CACHE = `hisab-green-runtime-${VERSION}`;
 const APP_SHELL = [
@@ -66,7 +66,7 @@ async function cacheFirst(req) {
   if (cached) return cached;
   try {
     const res = await fetch(req);
-    if (res && res.ok) cache.put(req, res.clone());
+    if (res && (res.ok || res.type === "opaque")) cache.put(req, res.clone());
     return res;
   } catch (err) {
     return Response.error();
@@ -86,6 +86,9 @@ self.addEventListener("fetch", event => {
   }
 
   if (url.hostname === "www.gstatic.com" && url.pathname.startsWith("/firebasejs/")) {
+    event.respondWith(cacheFirst(req));
+  }
+  if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") {
     event.respondWith(cacheFirst(req));
   }
   // Firestore/Auth API কল সরাসরি নেটওয়ার্কে যাবে
