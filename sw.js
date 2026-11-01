@@ -1,4 +1,4 @@
-const VERSION = "v5";
+const VERSION = "v6";
 const SHELL_CACHE = `hisab-green-shell-${VERSION}`;
 const RUNTIME_CACHE = `hisab-green-runtime-${VERSION}`;
 const APP_SHELL = [
